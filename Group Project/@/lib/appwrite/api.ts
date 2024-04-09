@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
+import { IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID } from "appwrite";
 
@@ -13,7 +13,6 @@ export async function createUserAccount(user: INewUser) {
             user.username
         );
         if (!newAccount) throw Error;
-        const avatarUrl = avatars.getInitials(user.username);
 
         //user collection
         const newUser = await saveUserToDB({
@@ -23,12 +22,37 @@ export async function createUserAccount(user: INewUser) {
             email: newAccount.email,
         });
         //student collection
+        const avatarUrl: any = avatars.getInitials(user.username);
+        let uploadedFile: any
+        let fileUrl
+        try {
+            // Convert URL to File
+            const response = await fetch(avatarUrl);
+            const blob = await response.blob();
+            const filename = "image";
+            const avatarFile = new File([blob], filename);
+
+            // Upload the file
+            uploadedFile = await uploadProfile(avatarFile);
+            if (!uploadedFile) throw Error();
+
+            // Get file URL
+            fileUrl = storage.getFileView(appwriteConfig.profileStorageId, uploadedFile.$id);
+            if (!fileUrl) {
+                deleteProfile(uploadedFile.$id);
+                throw Error();
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
         const userAdmin = await saveUserToStudentDB({
             accountid: user.userid,
             bio: "",
             username: user.username,
-            imageUrl: avatarUrl,
-            imageid: ""
+            imageUrl: fileUrl,
+            imageid: uploadedFile.$id
         })
         return newUser;
 
@@ -82,7 +106,7 @@ export async function saveUserToStudentDB(user: {
 export async function updateUserAccount(user: IUpdateUser) {
     try {
         const res = await fetch(`http://localhost:3000/deleteUser/${user.userid}`);
-        const data = await res.json();
+        await res.json();
         const newAccount = await account.create(
             user.userid,
             user.email,
@@ -135,6 +159,7 @@ export async function UpdateEmail(user: IUpdateUser) {
         role: user.role,
         newPassword: undefined
     })
+    alert("Email updated successfully.")
 }
 
 //update password
@@ -158,57 +183,67 @@ export async function UpdatePassword(user: IUpdateUser) {
         role: user.role,
         newPassword: ""
     })
+    alert("Password updated successfully.")
 }
 
 //delete all the users
-export async function DeleteUser(userid: string, userrole: string) {
-    const res = await fetch(`http://localhost:3000/deleteUser/${userid}`);
-    const data = await res.json();
-    const updatedCousellor = await databases.deleteDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.userCollectionId,
-        userid)
-    if (userrole == "student") {
-        const currentUser1 = await databases.deleteDocument(
+export async function DeleteUser(userid: string, userrole: string, imageid: string) {
+    if (confirm("Do you want to delete the account? ")) {
+        const res = await fetch(`http://localhost:3000/deleteUser/${userid}`);
+        await res.json();
+        //delete image from the storage 
+        console.log(imageid)
+        deleteProfile(imageid);
+        await databases.deleteDocument(
             appwriteConfig.databaseId,
-            appwriteConfig.studentCollectionId,
-            userid
-        );
-        if (currentUser1) {
-            return alert("Acoount deleted successfully.");
+            appwriteConfig.userCollectionId,
+            userid)
+        if (userrole == "student") {
+            const currentUser1 = await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.studentCollectionId,
+                userid
+            );
+            if (currentUser1) {
+                alert("Account deleted successfully.");
+            }
         }
-    }
-    if (userrole == "admin") {
-        const currentUser2 = await databases.deleteDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.adminCollectionId,
-            userid
-        );
-        if (currentUser2) {
-            return alert("Acoount deleted successfully.");
+        if (userrole == "admin") {
+            const currentUser2 = await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.adminCollectionId,
+                userid
+            );
+            if (currentUser2) {
+                alert("Account deleted successfully.");
+            }
         }
-    }
 
-    if (userrole == "counsellor") {
-        const currentUser3 = await databases.deleteDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.counsellorCollectionId,
-            userid
-        );
-        if (currentUser3) {
-            return alert("Acoount deleted successfully.");
+        if (userrole == "counsellor") {
+            const currentUser3 = await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.counsellorCollectionId,
+                userid
+            );
+            if (currentUser3) {
+                alert("Account deleted successfully.");
+            }
         }
-    }
 
-    if (userrole == "buddy") {
-        const currentUser4 = await databases.deleteDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.buddyCollectionId,
-            userid
-        );
-        if (currentUser4) {
-            return alert("Acoount deleted successfully.");
+        if (userrole == "buddy") {
+            const currentUser4 = await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.buddyCollectionId,
+                userid
+            );
+            if (currentUser4) {
+                alert("Account deleted successfully.");
+            }
         }
+
+        window.location.reload()
+    } else {
+        return alert("Delete operation has been cancelled.");
     }
 }
 
@@ -216,51 +251,33 @@ export async function DeleteUser(userid: string, userrole: string) {
 export async function UpdateUser(user: IUpdateUser) {
     try {
         //upload image to storage
-        let uploadedFile;
-        let imgID;
+        let uploadedFile: any;
+        let imgID = user.imageid;
         let fileUrl;
-        if (user.file[0] == undefined) {
-            user.file = undefined
-        }
-        if (true) {
-            if (user.file != undefined) {
+        if (user.file != undefined) {
+            try {
+                deleteProfile(user.imageid);
+                // Convert URL to File
                 uploadedFile = await uploadProfile(user.file[0]);
-                if (!uploadedFile) throw Error;
+                if (!uploadedFile) throw Error();
+                // Get file URL
+                fileUrl = storage.getFileView(appwriteConfig.profileStorageId, uploadedFile.$id);
+                if (!fileUrl) {
+                    deleteProfile(uploadedFile.$id);
+                    throw Error();
+                }
 
-                //Get file url
-                fileUrl = storage.getFileView(
-                    appwriteConfig.profileStorageId,
-                    uploadedFile.$id);
-                if (!fileUrl) {
-                    deleteProfile(uploadedFile.$id);
-                    throw Error;
-                }
-            }
-        } else {
-            if (user.file != undefined) {
-                await deleteProfile(user.imageid);
-                uploadedFile = await uploadProfile(user.file[0]);
-                if (!uploadedFile) throw Error;
-                imgID = uploadedFile.$id
-                //Get file url
-                fileUrl = storage.getFileView(
-                    appwriteConfig.profileStorageId,
-                    uploadedFile.$id);
-                if (!fileUrl) {
-                    deleteProfile(uploadedFile.$id);
-                    throw Error;
-                }
+                imgID = uploadedFile.$id;
+
+            } catch (error) {
+                console.error('Error:', error);
             }
         }
         //makes changes in the auth
         //update name 
         const promise = account.updateName(user.username)
-        console.log(promise)
         if (!promise) throw Error
 
-        if ((user.file != undefined && user.imageUrl == "") || (user.imageid == "" && user.imageUrl == "")) {
-            fileUrl = avatars.getInitials(user.username);
-        }
         const updatedCousellor = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -271,7 +288,6 @@ export async function UpdateUser(user: IUpdateUser) {
                 email: user.email,
                 password: user.password,
             })
-        console.log(updatedCousellor)
         if (user.role == "student") {
             console.log(user.role)
             const currentUser1 = await databases.updateDocument(
@@ -287,8 +303,7 @@ export async function UpdateUser(user: IUpdateUser) {
                 }
             );
             if (currentUser1) {
-                console.log(currentUser1);
-                return currentUser1;
+                alert("Account updated successfully.");
             }
         }
         if (user.role == "admin") {
@@ -305,8 +320,7 @@ export async function UpdateUser(user: IUpdateUser) {
                 }
             );
             if (currentUser2) {
-                console.log(currentUser2);
-                return currentUser2;
+                alert("Account updated successfully.");
             }
         }
 
@@ -326,8 +340,7 @@ export async function UpdateUser(user: IUpdateUser) {
                 }
             );
             if (currentUser3) {
-                console.log(currentUser3);
-                return currentUser3;
+                alert("Account updated successfully.");
             }
         }
 
@@ -346,8 +359,7 @@ export async function UpdateUser(user: IUpdateUser) {
                 }
             );
             if (currentUser4) {
-                console.log(currentUser4);
-                return currentUser4;
+                alert("Account updated successfully.");
             }
         }
         if (!updatedCousellor) {
@@ -477,8 +489,6 @@ export async function getCurrentUserCollections(userId: string, role: string) {
 //buddy (create and add buddy to user and buddy collection)
 export async function addBuddy(user: INewBuddy) {
     try {
-        console.log("Entered the add buddy!!")
-        console.log(user)
         const newAccount = await account.create(
             user.userId,
             user.email,
@@ -487,14 +497,39 @@ export async function addBuddy(user: INewBuddy) {
         );
         console.log(newAccount)
         if (!newAccount) throw Error;
+
         const avatarUrl = avatars.getInitials(user.username);
+        let uploadedFile: any
+        let fileUrl
+
+        try {
+            // Convert URL to File
+            const response = await fetch(avatarUrl);
+            const blob = await response.blob();
+            const filename = "image";
+            const avatarFile = new File([blob], filename);
+
+            // Upload the file
+            uploadedFile = await uploadProfile(avatarFile);
+            if (!uploadedFile) throw Error();
+
+            // Get file URL
+            fileUrl = storage.getFileView(appwriteConfig.profileStorageId, uploadedFile.$id);
+            if (!fileUrl) {
+                deleteProfile(uploadedFile.$id);
+                throw Error();
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
 
         const Cuser = await saveBuddyToDB({
             accountid: user.userId,
-            bio: "",
+            bio: user.bio,
             username: user.username,
-            imageUrl: avatarUrl,
-            imageid: "",
+            imageUrl: fileUrl,
+            imageid: uploadedFile.$id,
             contact: user.contact
         })
         console.log(Cuser)
@@ -504,7 +539,7 @@ export async function addBuddy(user: INewBuddy) {
             role: "buddy",
             email: user.email
         });
-        console.log(newUser)
+        alert("Buddy account created successfully.")
         return newUser;
 
     } catch (error) {
@@ -560,7 +595,7 @@ export async function UpdateBuddyU(user: IUpdateBuddy) {
 //update buddy details in buddy collection
 export async function UpdateBuddyB(user: IUpdateBuddy) {
     try {
-        const avatarUrl = avatars.getInitials(user.username);
+        //upload image to storage
         const updatedBuddy = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.buddyCollectionId,
@@ -569,14 +604,13 @@ export async function UpdateBuddyB(user: IUpdateBuddy) {
                 contact: user.contact,
                 username: user.username,
                 bio: user.bio,
-                imageUrl: avatarUrl,
-                imageid: user.imageId,
                 accountid: user.$id
             })
         if (!updatedBuddy) {
             await deleteFile(user.imageId);
             throw Error;
         }
+        alert("Account updated successfully.")
         return updatedBuddy
     } catch (error) {
         console.log(error);
@@ -671,6 +705,7 @@ export async function createPost(post: INewPost) {
             await deleteFile(uploadedFile.$id);
             throw Error;
         }
+        alert("Post created successfully.");
         return newPost
     } catch (error) {
         console.log(error);
@@ -741,6 +776,7 @@ export async function updatePost(post: IUpdatePost) {
                 await deleteFile(post.imageId);
                 throw Error;
             }
+            alert("Post updated successfully.");
             return updatedPost
         } catch (error) {
             console.log(error);
@@ -752,22 +788,27 @@ export async function updatePost(post: IUpdatePost) {
 
 export async function deletePostById(postId: any) {
     try {
-        console.log(postId)
-        const postInfo = await databases.getDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.officialPostsCollectionId,
-            postId
-        )
-        console.log(postInfo.imageId)
-        const Gfile = storage.deleteFile(appwriteConfig.officialPostsStorageId, postInfo.imageId);
-        if (!Gfile) throw Error
+        if (confirm("Do you want to delete the post?")) {
+            const postInfo = await databases.getDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.officialPostsCollectionId,
+                postId
+            )
+            const Gfile = storage.deleteFile(appwriteConfig.officialPostsStorageId, postInfo.imageId);
+            if (!Gfile) throw Error
 
-        const post = await databases.deleteDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.officialPostsCollectionId,
-            postId);
+            const post = await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.officialPostsCollectionId,
+                postId);
 
-        if (!post) throw Error
+            if (!post) throw Error
+            alert("Post deleted successfully.");
+            window.location.reload()
+        }
+        else {
+            return alert("Delete operation has been cancelled.");
+        }
 
     } catch (error) {
         console.log(error);
@@ -830,8 +871,6 @@ export async function createGroup(group: INewGroup) {
             deleteFileGroup(uploadedFile.$id);
             throw Error;
         }
-        console.log(fileUrl);
-        console.log("reached the create group method")
         //save post to database
         const newGroup = await databases.createDocument(
             appwriteConfig.databaseId,
@@ -850,6 +889,7 @@ export async function createGroup(group: INewGroup) {
             await deleteFileGroup(uploadedFile.$id);
             throw Error;
         }
+        alert("Group created successfully.")
         return newGroup
     } catch (error) {
         console.log(error);
@@ -899,6 +939,7 @@ export async function updateGroup(group: IUpdateGroup) {
                 await deleteFileGroup(group.imageId);
                 throw Error;
             }
+            alert("Group updated successfully.")
             return updatedGroup
         } catch (error) {
             console.log(error);
@@ -955,22 +996,24 @@ export async function getGroupById(groupId: string) {
 
 export async function deleteGroupById(groupId: any) {
     try {
-        console.log(groupId)
-        const groupInfo = await databases.getDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.groupCollectionId,
-            groupId
-        )
-        console.log(groupInfo.imageId)
-        const Gfile = storage.deleteFile(appwriteConfig.profileStorageId, groupInfo.imageId);
-        if (!Gfile) throw Error
+        if (confirm("Do you want to delete the group?")) {
+            const groupInfo = await databases.getDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.groupCollectionId,
+                groupId
+            )
+            const Gfile = storage.deleteFile(appwriteConfig.profileStorageId, groupInfo.imageId);
+            if (!Gfile) throw Error
 
-        const group = await databases.deleteDocument(
-            appwriteConfig.databaseId,
-            appwriteConfig.groupCollectionId,
-            groupId);
-
-        if (!group) throw Error
+            await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.groupCollectionId,
+                groupId);
+            return alert("Group deleted successfully.")
+        }
+        else {
+            return alert("Delete operation has been cancelled.");
+        }
 
     } catch (error) {
         console.log(error);
@@ -999,8 +1042,6 @@ export async function deleteStudentFromGroup(user: IGroupCollection) {
 
 //add student to the particular group that they join (error)
 export async function AddStudentToGroup(user: IGroupCollection) {
-    console.log(user.userId)
-    console.log(user.groupId)
     try {
         const Nuser = await databases.updateDocument(
             appwriteConfig.databaseId,
@@ -1041,29 +1082,50 @@ export async function saveStudentToDB(user: {
 //counsellor (create and add buddy to user and buddy collection)
 export async function addCounsellor(user: INewCounsellor) {
     try {
-        console.log(user)
-        console.log("add")
-        console.log("Entered the add counsellor!!")
-        console.log(user)
         const newAccount = await account.create(
             user.userId,
             user.email,
             user.password,
+
             user.username
         );
-
         console.log(newAccount)
-        console.log(user)
         if (!newAccount) throw Error;
 
+        // Assuming avatars.getInitials(user.username) returns a URL
         const avatarUrl = avatars.getInitials(user.username);
+        let uploadedFile: any
+        let fileUrl
+
+        try {
+            // Convert URL to File
+            const response = await fetch(avatarUrl);
+            const blob = await response.blob();
+            const filename = "image";
+            const avatarFile = new File([blob], filename);
+
+            // Upload the file
+            uploadedFile = await uploadProfile(avatarFile);
+            if (!uploadedFile) throw Error();
+
+            // Get file URL
+            fileUrl = storage.getFileView(appwriteConfig.profileStorageId, uploadedFile.$id);
+            if (!fileUrl) {
+                deleteProfile(uploadedFile.$id);
+                throw Error();
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
         const Cuser = await saveCounsellorToDB({
             accountid: user.userId,
             block: user.block,
             bio: user.bio,
             username: user.username,
-            imageUrl: avatarUrl,
-            imageid: "",
+            imageUrl: fileUrl,
+            imageid: uploadedFile.$id,
             contact: user.contact
         })
         console.log(Cuser)
@@ -1073,8 +1135,7 @@ export async function addCounsellor(user: INewCounsellor) {
             role: "counsellor",
             email: user.email
         });
-
-        console.log(newUser)
+        alert("Counsellor account created successfully.")
         return newUser;
 
     } catch (error) {
@@ -1108,15 +1169,26 @@ export async function saveCounsellorToDB(user: {
 //update counsellor details in user collection
 export async function UpdateCounsellorU(user: IUpdateCounsellor) {
     try {
+
+        const res = await fetch(`http://localhost:3000/deleteUser/${user.$id}`);
+        await res.json();
+        const newAccount = await account.create(
+            user.$id,
+            user.email,
+            user.password,
+            user.username
+        );
+        if (!newAccount) throw Error;
+
         const updatedCousellor = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             user.$id,
             {
                 accountid: user.$id,
-                password: user.password,
+                password: newAccount.password,
                 role: "counsellor",
-                email: user.email
+                email: newAccount.email
             })
         if (!updatedCousellor) {
             await deleteFile(user.imageId);
@@ -1131,7 +1203,6 @@ export async function UpdateCounsellorU(user: IUpdateCounsellor) {
 //update counsellor details in counsellor collection
 export async function UpdateCounsellorC(user: IUpdateCounsellor) {
     try {
-        const avatarUrl = avatars.getInitials(user.name);
         const updatedCousellor = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.counsellorCollectionId,
@@ -1140,14 +1211,13 @@ export async function UpdateCounsellorC(user: IUpdateCounsellor) {
                 accountid: user.$id,
                 bio: user.bio,
                 username: user.username,
-                imageUrl: avatarUrl,
-                iamgeid: user.imageId,
                 contact: user.contact
             })
         if (!updatedCousellor) {
             await deleteFile(user.imageId);
             throw Error;
         }
+        alert("Account updated successfully.")
         return updatedCousellor
     } catch (error) {
         console.log(error);
@@ -1361,6 +1431,65 @@ export async function getPostByIdM(postId: string) {
             postId
         )
         return post
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function AddSchedule(user: ISchedule): Promise<any> {
+    try {
+        console.log(user)
+        const Nuser = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.scheduleCollectionId,
+            user.counsellorid,
+            {
+                counsellorid: user.counsellorid,
+                days: user.days,
+                timeslot: user.timeslot,
+                status: user.status,
+                dates: user.dates
+            })
+        console.log(Nuser)
+        if (!Nuser) {
+            throw Error;
+        }
+        alert("Schedule uploaded successfully.")
+        window.location.reload()
+    } catch (error) {
+        return error
+    }
+}
+
+export async function getScheduleById(userId: string) {
+    try {
+        console.log(userId)
+        const schedule = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.scheduleCollectionId,
+            userId
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function updateSchedule(user: ISchedule) {
+    try {
+        const updateSchedule = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.scheduleCollectionId,
+            user.counsellorid,
+            {
+                counsellorid: user.counsellorid,
+                days: user.days,
+                timeslot: user.timeslot,
+                status: user.status,
+                dates: user.dates
+            })
+        alert("Schedule updated successfully.")
+        window.location.reload()
     } catch (error) {
         console.log(error)
     }

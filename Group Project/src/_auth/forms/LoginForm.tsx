@@ -103,7 +103,7 @@ function LoginForm() {
         <Button type="submit" className="shad-button_primary">
           {isUserLoading || isUser?(
             <div className="flex-center gap-2">
-              <Loader/>
+              <Loader/> Loading....
             </div>
           ):("Sign in")}
         </Button>

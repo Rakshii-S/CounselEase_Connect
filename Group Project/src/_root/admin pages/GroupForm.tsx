@@ -8,11 +8,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../../@/components/ui/input";
 import FileUploader from "../shared/FileUploader";
 import { Button } from "../../../@/components/ui/button";
-import { ScrollArea } from "../../../@/components/ui/scroll-area";
 import Loader from "../shared/Loader";
 import { useCreateGroup, useGetRecentBuddyB, useGetRecentBuddyU, useGetRecentCounsellorC, useGetRecentCounsellorU, useUpdateGroup } from "../../../@/lib/react_query/queryNmutation";
 import { useForm } from "react-hook-form";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../../../@/components/ui/select"
+import { Select, SelectContent,  SelectItem,SelectTrigger, SelectValue } from "../../../@/components/ui/select"
 
 //form validation by zod
 export const AddGroupToDB = z.object({
@@ -32,7 +31,7 @@ type GroupForm =
   
   function GroupForm({group,action}:GroupForm) 
   {
-    //constants
+    //hooks and others
   const {toast} = useToast();
   const navigate = useNavigate();
 
@@ -41,10 +40,10 @@ type GroupForm =
   const {mutateAsync: createGroup, isPending: isLoadingCreate} = useCreateGroup();
   const {mutateAsync: updateGroup, isPending: isLoadingUpdate} = useUpdateGroup();
   
-  const {data:usersU1, isPending : isUserLoading1} = useGetRecentBuddyU();
-  const {data:usersB, isPending : isUserLoading2} = useGetRecentBuddyB();
-  const {data:usersU2, isPending : isUserLoading3} = useGetRecentCounsellorU();
-  const {data:usersC, isPending : isUserLoading4} = useGetRecentCounsellorC();
+  const {data:usersU1} = useGetRecentBuddyU();
+  const {data:usersB} = useGetRecentBuddyB();
+  const {data:usersU2} = useGetRecentCounsellorU();
+  const {data:usersC} = useGetRecentCounsellorC();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof AddGroupToDB>>({
@@ -220,7 +219,7 @@ type GroupForm =
        <center>
           <Button type="submit" className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">
             {isLoadingCreate || isLoadingUpdate?(
-              <div className="pl-6">
+              <div className="pl-20">
                 <Loader/>
               </div>
             ):(

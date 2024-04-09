@@ -1,7 +1,6 @@
 import {Navigate, Outlet} from 'react-router-dom';
 import { Toaster } from '../../@/components/ui/toaster';
 import { useUserContext } from '../../context/AuthContext';
-import RootLayout from '../_root/RootLayout';
 
 function AuthLayout() {
   const {user} = useUserContext();

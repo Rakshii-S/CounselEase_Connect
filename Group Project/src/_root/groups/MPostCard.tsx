@@ -12,9 +12,11 @@ type PostCardProps = {
 
 function MPostCard({post}:PostCardProps) 
 {
-    //context
+    //hooks and others
     const {user} = useUserContext();
     const {id} = useParams();
+
+    //tanstack query and appwrite 
     const {data: group} = useGetGroupById(id || '');
     const {data: currentUser} = useGetCurrentUserCollection(post.creator.$id, post.creator.role);
     if(!post.creator) return Error;

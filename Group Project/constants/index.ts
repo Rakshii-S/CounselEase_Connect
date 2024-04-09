@@ -44,7 +44,7 @@ export const sidebarLinksCounsellor = [
     },
     {
         imgURL: "/assets/schedule.png",
-        route: "/create-post",
+        route: "/view-schedule",
         label: "My Schedule",
     },
     {
@@ -156,7 +156,7 @@ export const CounsellorbottombarLink = [
     },
     {
         imgURL: "/assets/schedule.png",
-        route: "/create-post",
+        route: "/view-schedule",
         label: "My Schedule",
     },
     {

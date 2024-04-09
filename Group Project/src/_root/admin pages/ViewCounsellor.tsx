@@ -1,30 +1,23 @@
-import React from 'react'
 import { Button } from '../../../@/components/ui/button'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCounsellorByIdC, useGetCounsellorByIdU } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 import { useUserContext } from '../../../context/AuthContext';
-import { useToast } from '../../../@/components/ui/use-toast';
 import { DeleteUser } from '../../../@/lib/appwrite/api';
 
 
 function ViewCounsellor() {
+  //hooks and others
   const navigate = useNavigate();
-  const {user} = useUserContext()
   const {id} = useParams()
-  const {toast} = useToast();
+
+   //tanstack query, appwrite and context 
+   const {user} = useUserContext()
   const {data: userU, isPending: isUserU} = useGetCounsellorByIdU(id || '');
   const {data: userC, isPending: isUserC} = useGetCounsellorByIdC(id || '');
 
-  //
   const deleteUser = async () =>{
-    const status =  DeleteUser(userU?.accountid, userU?.role);
-    if(await status)
-    {
-    alert("Account deleted sucessfully.")
-    navigate('/buddy')
-      toast({title:'Account deleted successfully'})
-    }
+    await  DeleteUser(userU?.accountid, userU?.role,userC?.imageid);
   }
     
   return (
@@ -46,10 +39,14 @@ function ViewCounsellor() {
                 <p className='pl-10 pt-5 pr-5'>Email:</p>
                 <p className='pl-3 pt-5'>{userU?.email}</p>
               </div>
-              <div className='flex flex-row text-xl'>
-                <p className='pl-10 pt-5 pr-5'>Password:</p>
-                <p className='pl-3 pt-5'>{userU?.password}</p>
-              </div>
+              {user.role == "admin" ?(
+                   <div className='flex flex-row text-xl'>
+                   <p className='pl-10 pt-5 pr-5'>Password:</p>
+                   <p className='pl-3 pt-5'>{userU?.password}</p>
+                 </div>
+              ):(
+               <></> 
+              )}
               <div className='flex flex-row text-xl'>
                 <p className='pl-10 pt-5 pr-5'>Role:</p>
                 <p className='pl-3 pt-5'>{userU?.role}</p>

@@ -1,5 +1,5 @@
 
-import {Link, NavLink, useLocation} from 'react-router-dom'
+import {NavLink, useLocation} from 'react-router-dom'
 import { AdminbottombarLinks, BuddybottombarLink, CounsellorbottombarLink, StudentbottombarLink } from '../../../constants';
 import { INavLink } from '../../../types';
 import { useUserContext } from '../../../context/AuthContext';

@@ -10,7 +10,7 @@ import FileUploader from "../shared/FileUploader"
 import { useToast } from "../../../@/components/ui/use-toast"
 import { useUserContext } from "../../../context/AuthContext"
 import { Models } from "appwrite"
-import { useCreatePost, useCreatePostM, useGetGroupById, useGetRecentGroup, useUpdatePost, useUpdatePostM } from "../../../@/lib/react_query/queryNmutation"
+import { useCreatePostM, useGetGroupById, useUpdatePostM } from "../../../@/lib/react_query/queryNmutation"
 import Loader from "../shared/Loader"
 
 
@@ -29,14 +29,14 @@ type PostForm={
 
 function MPostForm({post,action}:PostForm) 
 {
-  //constants
+  //hooks and others
   const {toast} = useToast();
   const navigate = useNavigate();
   const {id} = useParams();
 
   //tanstack query, appwrite and context 
   const {user} = useUserContext();
-  const {data: group, isPending} = useGetGroupById(id || '');
+  const {data: group} = useGetGroupById(id || '');
   const {mutateAsync: createPost, isPending: isLoadingCreate} = useCreatePostM();
   const {mutateAsync: updatePost, isPending: isLoadingUpdate} = useUpdatePostM();
 

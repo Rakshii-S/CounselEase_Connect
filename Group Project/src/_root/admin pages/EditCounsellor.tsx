@@ -4,7 +4,10 @@ import Loader from '../shared/Loader';
 import CounsellorForm from './CounsellorForm';
 
 function EditCounsellor() {
+  //hooks and others 
   const {id} = useParams();
+
+  //tanstack query and appwrite 
   const {data:userU, isPending: isuserU} = useGetCounsellorByIdU(id || '');
   const {data:userC, isPending: isuserC} = useGetCounsellorByIdC(id || '');
 

@@ -1,6 +1,6 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
-import { IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from '../../../types';
-import { AddStudentToGroup, DeleteUser, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateUserAccount } from '../appwrite/api';
+import { IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from '../../../types';
+import { AddSchedule, AddStudentToGroup, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, getScheduleById, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateSchedule, updateUserAccount} from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 //create new user account 
@@ -376,5 +376,26 @@ export const useGetPostByIdM = (postId: string) => {
         queryKey: [QUERY_KEYS.GET_POST_BY_ID, postId],
         queryFn: () => getPostByIdM(postId),
         enabled:  !!postId
+    })
+}
+
+//schedule
+export const useAddSchedule = () => {
+    return useMutation({
+        mutationFn: (user:ISchedule) => AddSchedule(user)
+    })
+}
+
+export const useGetSchedulebyId = (userId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_COUNSELLOR_BY_ID_U, userId],
+        queryFn: () => getScheduleById(userId),
+        enabled:  !!userId
+    })
+}
+
+export const useUpdateSchedule = () => {
+    return useMutation({
+        mutationFn: (user:ISchedule) => updateSchedule(user)
     })
 }

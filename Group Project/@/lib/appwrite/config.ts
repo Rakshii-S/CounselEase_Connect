@@ -14,7 +14,8 @@ export const appwriteConfig = {
     groupPostsCollectionId: '66019aa428fb7640d47e',
     counsellorCollectionId: '6601cdb1b364680acbc5',
     buddyCollectionId: '65ef1241f38f7e13b72b',
-    studentCollectionId: '65eed3bb5b32310cd9db'
+    studentCollectionId: '65eed3bb5b32310cd9db',
+    scheduleCollectionId: '6614b49bb5c91ed69972'
 }
 
 export const client = new Client();

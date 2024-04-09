@@ -8,11 +8,13 @@ import MPostCard from "./MPostCard";
 
 
 function MGroupView() {
-  const {data:posts} = useGetRecentPostM();
-
+  //hooks and others
   const navigate = useNavigate();
   const {user} = useUserContext();
   const {id} = useParams();
+
+  //tanstack query and appwrite 
+  const {data:posts} = useGetRecentPostM();
   const {data: group, isPending} = useGetGroupById(id || '');
   const {data: userB} = useGetBuddyByIdB(group?.buddyId || '');
   const {data: userC} = useGetCounsellorByIdC(group?.counsellorId || '');
@@ -22,7 +24,6 @@ function MGroupView() {
     async function  addStudentToGroup(){
     group?.studentId.push(user.accountid)
     const student:string[] = group?.studentId
-    console.log(group?.studentId)
       const value = await AddStudentToGroup({
           groupId: id,
           userId:student
@@ -38,14 +39,12 @@ function MGroupView() {
           const student: string[] =  group?.studentId.slice(0, index).concat(group?.studentId.slice(index + 1));
           
           let i;
-          console.log(group?.studentId.length)
           for(i=0;i<group?.studentId.length;i++)
           {
-              const value = await deleteStudentFromGroup({
+              await deleteStudentFromGroup({
                   groupId: id,
                   userId: student
               });
-              console.log(value);
           }
           navigate(`/mgroups`)
         }

@@ -160,3 +160,13 @@ export type IUpdatePostM = {
     file: File[];
     tags?: string;
 };
+
+//SCHEDULE 
+
+export type ISchedule = {
+    counsellorid: string,
+    days: any[],
+    timeslot: any[],
+    status: any[],
+    dates: any[]
+}

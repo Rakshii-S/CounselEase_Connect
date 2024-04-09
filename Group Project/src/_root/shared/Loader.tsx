@@ -5,7 +5,6 @@ function Loader() {
     <img
     src="/assets/loader.svg"
     alt="loading"
-    className='bg-black'
     />
     </div>
   )

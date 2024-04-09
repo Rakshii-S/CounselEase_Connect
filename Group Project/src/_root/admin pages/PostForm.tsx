@@ -29,7 +29,7 @@ type PostForm={
 
 function PostForm({post,action}:PostForm) 
 {
-  //constants
+  //hooks and others
   const {toast} = useToast();
   const navigate = useNavigate();
 
@@ -137,7 +137,7 @@ function PostForm({post,action}:PostForm)
         <center>
           <Button type="submit" className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">
             {isLoadingCreate || isLoadingUpdate?(
-              <div className="pl-10 pt-2">
+              <div className="pl-20">
                 <Loader/>
               </div>
             ):(

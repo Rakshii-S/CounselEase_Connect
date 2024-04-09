@@ -1,17 +1,18 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import PostLikes from '../shared/PostLikes';
-import { useGetCurrentUserCollection, useGetPostById, useGetPostByIdM } from '../../../@/lib/react_query/queryNmutation';
+import { useGetCurrentUserCollection, useGetPostByIdM } from '../../../@/lib/react_query/queryNmutation';
 import { useUserContext } from '../../../context/AuthContext';
 import { Loader } from 'lucide-react';
 import { multiFormatDateString } from '../../../@/lib/utils';
 import { Button } from '../../../@/components/ui/button';
 import { deletePostById } from '../../../@/lib/appwrite/api';
-import { Models } from 'appwrite';
 import MPostLikes from './MPostLikes';
 
 
 function MPostDetails() {
+    //hooks
     const {id} = useParams()
+
+    //tanstack query, context and appwrite 
     const {data: post, isPending} = useGetPostByIdM(id || '');
     const {data: currentUser} = useGetCurrentUserCollection(post?.creator.$id, post?.creator.role);
     const {user} = useUserContext();

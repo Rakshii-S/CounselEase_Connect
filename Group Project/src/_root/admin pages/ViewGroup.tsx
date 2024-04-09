@@ -1,24 +1,24 @@
-import { Link, useNavigate, useParams } from "react-router-dom"
-import { useGetBuddyByIdB, useGetBuddyByIdU, useGetCounsellorByIdC, useGetCounsellorByIdU, useGetGroupById, useGetRecentPostM, useStudentAccount } from "../../../@/lib/react_query/queryNmutation";
+import { useNavigate, useParams } from "react-router-dom"
+import { useGetBuddyByIdB, useGetCounsellorByIdC, useGetGroupById, useGetRecentPostM } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 import Loader from "../shared/Loader";
-import { multiFormatDateString } from "../../../@/lib/utils";
 import { Button } from "../../../@/components/ui/button";
-import { addStudentToGroup, deleteGroupById } from "../../../@/lib/appwrite/api";
+import { deleteGroupById } from "../../../@/lib/appwrite/api";
 import { Models } from "appwrite";
 import MPostCard from "../groups/MPostCard";
 
 
 function ViewGroup() {
+  //hooks and others
   const navigate = useNavigate();
-  const {user} = useUserContext();
   const {id} = useParams()
+
+  //tanstack query, appwrite and context 
+  const {user} = useUserContext();
   const {data: group, isPending} = useGetGroupById(id || '');
-  const {data: userU1} = useGetBuddyByIdU(group?.buddyId || '');
   const {data: userB} = useGetBuddyByIdB(group?.buddyId || '');
-  const {data: userU2} = useGetCounsellorByIdU(group?.counsellorId || '');
   const {data: userC} = useGetCounsellorByIdC(group?.counsellorId || '');
-  const {data:posts, isPending : isPostLoading} = useGetRecentPostM();
+  const {data:posts} = useGetRecentPostM();
     
     function deleteGroup()
     {

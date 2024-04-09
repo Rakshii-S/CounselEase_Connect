@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate} from "react-router-dom"
 import { useUserContext } from "../../context/AuthContext"
 import CounsellorLayout from "./counsellor pages/CounsellorLayout";
 import AdminLayout from "./admin pages/AdminLayout";

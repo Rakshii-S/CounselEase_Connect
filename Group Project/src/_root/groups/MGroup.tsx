@@ -7,10 +7,12 @@ import { useState } from "react";
 import { useUserContext } from "../../../context/AuthContext";
 
 function MGroup() {
+  //hooks and others
   const navigate = useNavigate();
   const {user} = useUserContext();
   const [Agroups , setAgroups] = useState(true);
   const [Jgroups , setJgroups] = useState(false);
+  
   //tanstack query and appwrite 
   const {data:groups, isPending : isGroupLoading} = useGetRecentGroup();
 

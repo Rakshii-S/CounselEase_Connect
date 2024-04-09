@@ -5,8 +5,10 @@ import { useGetPostById } from '../../../@/lib/react_query/queryNmutation';
 
 function EditPost() 
 {
-  console.log(useParams());
+  //hooks and others
   const {id} = useParams();
+
+   //tanstack query, appwrite and context 
   const {data:post, isPending} = useGetPostById(id || '');
 
   if(isPending) return (

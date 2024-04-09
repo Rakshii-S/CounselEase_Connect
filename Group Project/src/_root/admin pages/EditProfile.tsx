@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import Loader from '../shared/Loader';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../@/components/ui/form';
 import { Input } from '../../../@/components/ui/input';
@@ -20,7 +20,7 @@ export const AddUserToDB = z.object({
 })
 
 function EditProfile() {
-   //constants
+   //hooks and others
    const {toast} = useToast();
    const navigate = useNavigate();
  
@@ -28,14 +28,24 @@ function EditProfile() {
    const {user} = useUserContext();
    const {data: currentUser, isLoading} = useGetCurrentUserCollection(user.accountid, user.role);
    const {mutateAsync: updateAccount, isPending: isLoadingUpdate} = useUpdateAccount();
-  
-   console.log(currentUser)
+ 
+   //one delete function 
+   let avatarFile 
+   async function imageToURL()
+   {
+    const response = await fetch(currentUser?.imageUr);
+    const blob = await response.blob();
+    const filename = "image";
+    avatarFile = new File([blob], filename);
+   }
+   imageToURL()
+   
    // 1. Define your form.
    const form = useForm<z.infer<typeof AddUserToDB>>({
      resolver: zodResolver(AddUserToDB),
      defaultValues: {
       username: currentUser? currentUser.username: "",
-      file:[],
+      file:  avatarFile ? [avatarFile] : [],
        bio:currentUser? currentUser.bio:"",
        contact:currentUser? currentUser.contact: ""
      },
@@ -57,7 +67,6 @@ function EditProfile() {
            email: user.email,
            newPassword: ""
          });
-         console.log(updatedPost)
          if(!updatedPost)
          {
            toast({title:'Please try again'})
@@ -149,14 +158,14 @@ function EditProfile() {
           <Button 
           type="submit" className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">
             {isLoadingUpdate?(
-              <div className="pl-6">
+              <div className="pl-20">
                 <Loader/>
               </div>
             ):(
               <p>Edit Profile</p>
             )}
             </Button>
-          <Button type="button" onClick={()=>navigate(`/profile/${user.$id}`)}  
+          <Button type="button" onClick={()=>navigate(`/profile/${user.accountid}`)}  
           className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Cancel</Button>
           </center>
       </form>

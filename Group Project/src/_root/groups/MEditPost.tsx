@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
 import Loader from '../shared/Loader';
-import { useGetPostById, useGetPostByIdM } from '../../../@/lib/react_query/queryNmutation';
+import { useGetPostByIdM } from '../../../@/lib/react_query/queryNmutation';
 import MPostForm from './MPostForm';
 
 function MEditPost() 
 {
-  console.log(useParams());
+  //hooks and others
   const {id} = useParams();
+
+  //tanstack query, appwrite and context
   const {data:post, isPending} = useGetPostByIdM(id || '');
 
   if(isPending) return (

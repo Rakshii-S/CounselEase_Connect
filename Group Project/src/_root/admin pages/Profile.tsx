@@ -5,14 +5,18 @@ import { multiFormatDateString } from '../../../@/lib/utils';
 import Loader from '../shared/Loader';
 import { Models } from 'appwrite';
 import { useUserContext } from '../../../context/AuthContext';
+
 type props=
 {
     user: Models.Document;
 }
 function Profile() 
 {
+    //hooks and others
     const navigate = useNavigate();
     const {id} = useParams();
+     
+    //tanstack query, appwrite and context 
     const {user} = useUserContext();
     const {data: currentUser, isLoading} = useGetCurrentUserCollection(id || '', user.role);
     if(isLoading) return (

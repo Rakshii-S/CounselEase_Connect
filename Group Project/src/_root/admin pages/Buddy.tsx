@@ -1,6 +1,6 @@
 import { Button } from '../../../@/components/ui/button'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useGetBuddyByIdU, useGetRecentBuddyB, useGetRecentBuddyU } from '../../../@/lib/react_query/queryNmutation';
+import { Link, useNavigate} from 'react-router-dom'
+import { useGetRecentBuddyB, useGetRecentBuddyU } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 import { Models } from 'appwrite';
 import { useUserContext } from '../../../context/AuthContext';
@@ -8,7 +8,7 @@ import { Toast } from '@radix-ui/react-toast';
 import { DeleteUser } from '../../../@/lib/appwrite/api';
 
 function Buddy() {
-  //constants
+  //hooks and others
   const {user} = useUserContext()
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ function Buddy() {
                             <div className='mt-10'>
                               {user.role == "admin"?(
                                 <>
-                                  <Button className=' ml-36 mt-[-20px]' onClick={()=> DeleteUser(userU.$id, userU.role)} >
+                                  <Button className=' ml-36 mt-[-20px]' onClick={()=> DeleteUser(userU.$id, userU.role,usersB.documents[index].imageid)} >
                                     <img
                                     src="/assets/trash.png"
                                     width={25}

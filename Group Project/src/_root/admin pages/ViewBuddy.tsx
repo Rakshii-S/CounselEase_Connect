@@ -1,31 +1,26 @@
-import React from 'react'
 import { Button } from '../../../@/components/ui/button'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetBuddyByIdB, useGetBuddyByIdU } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 import { DeleteUser } from '../../../@/lib/appwrite/api';
-import { useToast } from '../../../@/components/ui/use-toast';
 import { useUserContext } from '../../../context/AuthContext';
 
 
 function ViewBuddy() {
+  //hooks and others
   const navigate = useNavigate();
-  const {user} = useUserContext()
   const {id} = useParams()
-  const {toast} = useToast();
+
+   //tanstack query, appwrite and context 
+  const {user} = useUserContext()
   const {data: userU, isPending: isUserU} = useGetBuddyByIdU(id || '');
   const {data: userB, isPending: isUserB} = useGetBuddyByIdB(id || '');
   
-  //
+  
   const deleteUser = async () =>{
-    const status =  DeleteUser(userU?.accountid, userU?.role);
-    if(await status)
-    {
-    alert("Account deleted sucessfully.")
-    navigate('/buddy')
-      toast({title:'Account deleted successfully'})
-    }
+    await DeleteUser(userU?.accountid, userU?.role, userB?.imageid);
   }
+  
   return (
     <div className="post_details-container">
         {isUserU && isUserB?(<Loader/>):(
@@ -45,10 +40,14 @@ function ViewBuddy() {
                 <p className='pl-10 pt-5 pr-5'>Email:</p>
                 <p className='pl-3 pt-5'>{userU?.email}</p>
               </div>
-              <div className='flex flex-row text-xl'>
-                <p className='pl-10 pt-5 pr-5'>Password:</p>
-                <p className='pl-3 pt-5'>{userU?.password}</p>
-              </div>
+              {user.role == "admin"?(
+                  <div className='flex flex-row text-xl'>
+                  <p className='pl-10 pt-5 pr-5'>Password:</p>
+                  <p className='pl-3 pt-5'>{userU?.password}</p>
+                </div>
+              ):(
+                <></>
+              )}
               <div className='flex flex-row text-xl'>
                 <p className='pl-10 pt-5 pr-5'>Role:</p>
                 <p className='pl-3 pt-5'>{userU?.role}</p>

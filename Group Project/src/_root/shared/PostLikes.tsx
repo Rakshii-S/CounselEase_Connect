@@ -1,6 +1,6 @@
 import { Models } from "appwrite";
 import React, { useState } from "react";
-import { useGetCurrentUser, useLikePost } from "../../../@/lib/react_query/queryNmutation";
+import { useLikePost } from "../../../@/lib/react_query/queryNmutation";
 import { checkIsLiked } from "../../../@/lib/utils";
 
 type PostStatsProps={
@@ -14,8 +14,6 @@ function PostLikes({post, userId}:PostStatsProps)
     console.log(likeList)
     const [likes, setLikes] = useState(likeList);
     const {mutate: likePost} = useLikePost();
-
-    const {data: currentUser} = useGetCurrentUser();
 
     const handleLikePost = (e:React.MouseEvent) => 
     {

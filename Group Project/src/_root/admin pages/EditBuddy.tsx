@@ -4,7 +4,10 @@ import Loader from '../shared/Loader';
 import BuddyForm from './BuddyForm';
 
 function EditBuddy() {
+  //hooks and others 
   const {id} = useParams();
+
+  //tanstack query and appwrite 
   const {data:userU, isPending: isUserU} = useGetBuddyByIdU(id || '');
   const {data:userB, isPending: isUserB} = useGetBuddyByIdB(id || '');
 

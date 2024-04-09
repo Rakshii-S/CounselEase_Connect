@@ -6,10 +6,12 @@ import { Models } from 'appwrite';
 
 
 function Group() {
+  //hooks and others
   const navigate = useNavigate();
 
   //tanstack query and appwrite 
   const {data:groups, isPending : isGroupLoading} = useGetRecentGroup();
+  
   return (
     <>
     <div className='common-container'>

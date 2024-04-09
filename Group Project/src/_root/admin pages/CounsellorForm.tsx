@@ -7,7 +7,7 @@ import { Input } from "../../../@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "../../../@/components/ui/use-toast"
 import { Models } from "appwrite"
-import { useAddCounsellor, useUpdateCounsellorC, useUpdateCounsellorU, useUpdateUserAccount} from "../../../@/lib/react_query/queryNmutation"
+import { useAddCounsellor, useUpdateCounsellorC, useUpdateCounsellorU} from "../../../@/lib/react_query/queryNmutation"
 import Loader from "../shared/Loader"
 import { v4 } from "uuid"
 
@@ -31,7 +31,7 @@ type Formprops={
 
 function CounsellorForm({counsellorU,counsellorC,action}:Formprops) 
 {
-  //constants
+  //hooks and others
   const {toast} = useToast();
   const navigate = useNavigate();
 
@@ -39,7 +39,6 @@ function CounsellorForm({counsellorU,counsellorC,action}:Formprops)
   const {mutateAsync: addCounsellor, isPending: isLoadingCreate} = useAddCounsellor();
   const {mutateAsync: updateCounsellor1, isPending: isLoadingUpdate1} = useUpdateCounsellorU();
   const {mutateAsync: updateCounsellor2, isPending: isLoadingUpdate2} = useUpdateCounsellorC();
-  const {mutateAsync: updateUserAccount, isPending: isUpdatingUser} = useUpdateUserAccount();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof AddCounsellorsToDB>>({
@@ -58,23 +57,6 @@ function CounsellorForm({counsellorU,counsellorC,action}:Formprops)
   {
     if(counsellorC && counsellorU && action=="Update")
     {
-        const newUser = await updateUserAccount({
-          ...values,
-          imageid: counsellorC.imageid,
-          imageUrl: [],
-          bio: counsellorC.bio,
-          $id: counsellorU.accountid,
-          userId: counsellorU.accountid,
-          role: counsellorU.role,
-          userid: counsellorU.accountid,
-          newPassword: ""
-        });
-        if(!newUser){
-          toast({
-            title: "Sign up failed. Please try again",
-          });
-          return navigate(`/counsellor`)
-        }
         const updatedPost1 = await updateCounsellor1({
           ...values,
           $id: counsellorU.$id,
@@ -193,8 +175,8 @@ function CounsellorForm({counsellorU,counsellorC,action}:Formprops)
       />
       <center>
       <Button type="submit" className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">
-            {isLoadingCreate || isLoadingUpdate1 || isLoadingUpdate2 || isUpdatingUser?(
-              <div className="pl-10 pt-2">
+            {isLoadingCreate || isLoadingUpdate1 || isLoadingUpdate2 ?(
+              <div className="pl-20">
                 <Loader/>
               </div>
             ):(

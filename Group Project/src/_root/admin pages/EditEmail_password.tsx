@@ -1,16 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import { useToast } from "../../../@/components/ui/use-toast";
-import { useGetCurrentUserCollection, useUpdateAccount, useUpdateUserEmail, useUpdateUserPassword } from "../../../@/lib/react_query/queryNmutation";
+import { useGetCurrentUserCollection,useUpdateUserEmail, useUpdateUserPassword } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 
 function EditEmail_password() {
-    //constants
+    //hooks and others
    const {toast} = useToast();
-   const navigate = useNavigate();
 
     //tanstack query, appwrite and context 
    const {user} = useUserContext();
-   const {data: currentUser, isLoading} = useGetCurrentUserCollection(user.accountid, user.role);
+   const {data: currentUser} = useGetCurrentUserCollection(user.accountid, user.role);
    const {mutateAsync: UpdateEmail, isPending: isLoadingEmail} = useUpdateUserEmail();
    const {mutateAsync: UpdatePassword, isPending: isLoadingPassword} = useUpdateUserPassword();
 
@@ -28,13 +26,12 @@ function EditEmail_password() {
      imageUrl: currentUser?.imageUrl,
      password: user.password,
      email: event.target.emailVal.value,
-     file: [],
+     file: undefined,
      contact: currentUser?.contact,
      username: currentUser?.username,
      bio: currentUser?.bio,
      newPassword: ""
    });
-   toast({title:'Email Updated successfully'})
  }
 
  //password update
@@ -50,13 +47,12 @@ function EditEmail_password() {
      imageUrl: currentUser?.imageUrl,
      password: user.password,
      email: user.email,
-     file: [],
+     file: undefined,
      contact: currentUser?.contact,
      username: currentUser?.username,
      bio: currentUser?.bio,
      newPassword: event.target.passVal.value
    });
-   toast({title:'Email Updated successfully'})
  }
 
   return (

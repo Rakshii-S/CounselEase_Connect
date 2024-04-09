@@ -7,7 +7,7 @@ import { Input } from "../../../@/components/ui/input"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "../../../@/components/ui/use-toast"
 import { Models } from "appwrite"
-import { useAddBuddy, useUpdateBuddyB, useUpdateBuddyU, useUpdateUserAccount} from "../../../@/lib/react_query/queryNmutation"
+import { useAddBuddy, useUpdateBuddyB, useUpdateBuddyU} from "../../../@/lib/react_query/queryNmutation"
 import Loader from "../shared/Loader"
 import { v4 } from "uuid"
 
@@ -30,7 +30,7 @@ type Formprops={
 
 function BuddyForm({buddyU,buddyB,action}:Formprops) 
 {
-  //constants
+  //hooks and others
   const {toast} = useToast();
   const navigate = useNavigate();
 
@@ -38,7 +38,6 @@ function BuddyForm({buddyU,buddyB,action}:Formprops)
   const {mutateAsync: addBuddy, isPending: isLoadingCreate} = useAddBuddy();
   const {mutateAsync: updateBuddy1, isPending: isLoadingUpdate1} = useUpdateBuddyU();
   const {mutateAsync: updateBuddy2, isPending: isLoadingUpdate2} = useUpdateBuddyB();
-  const {mutateAsync: updateUserAccount, isPending: isUpdatingUser} = useUpdateUserAccount();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof AddBuddyToDB>>({
@@ -56,24 +55,6 @@ function BuddyForm({buddyU,buddyB,action}:Formprops)
   {
     if(buddyB && buddyU && action=="Update")
     {
-      const newUser = await updateUserAccount({
-        ...values,
-        imageid: buddyB.imageid,
-        imageUrl: [],
-        bio: buddyB.bio,
-        $id: buddyU.accountid,
-        userId: buddyU.accountid,
-        role: buddyU.role,
-        userid: buddyU.accountid,
-        newPassword: "",
-        block: undefined
-      });
-      if(!newUser){
-        toast({
-          title: "Sign up failed. Please try again",
-        });
-        return navigate(`/buddy`)
-      }
 
         const updatedPost1 = await updateBuddy1({
           ...values,
@@ -104,9 +85,8 @@ function BuddyForm({buddyU,buddyB,action}:Formprops)
         const newCounsellor = await addBuddy({
           ...values,
           userId: v4(),
-          email: values.email,
           role: "buddy",
-          imageUrl: [],
+          imageUrl: undefined,
           bio: "",
           name: ""
         })
@@ -185,8 +165,8 @@ function BuddyForm({buddyU,buddyB,action}:Formprops)
       />
       <center>
       <Button type="submit" className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">
-            {isLoadingCreate || isLoadingUpdate1 || isLoadingUpdate2 || isUpdatingUser?(
-              <div className="pl-10 pt-2">
+            {isLoadingCreate || isLoadingUpdate1 || isLoadingUpdate2?(
+              <div className="pl-20">
                 <Loader/>
               </div>
             ):(

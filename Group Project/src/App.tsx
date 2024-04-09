@@ -36,6 +36,8 @@ import MGroupView from './_root/groups/MGroupView'
 import MCreatePost from './_root/groups/MCreatePost'
 import MPostDetails from './_root/groups/MPostDetails'
 import MEditPost from './_root/groups/MEditPost'
+import Schedule from './_root/counsellor pages/Schedule'
+import ViewSchedule from './_root/counsellor pages/ViewSchedule'
 
 function App() {
 
@@ -70,11 +72,6 @@ function App() {
           <Route path="/Mpost/:id" element={<MPostDetails/>}/>
           <Route path="/Medit-post/:id" element={<MEditPost/>}/>
 
-            {/*counsellor layout*/}
-            <Route element={<CounsellorLayout/>}>
-              
-            </Route>
-
             {/*admin layout*/}
               <Route element={<AdminLayout/>}>
                   <Route path="/groups" element={<Group/>}/>
@@ -87,6 +84,12 @@ function App() {
                   <Route path="/create-post" element={<CreatePost/>}/>
                   <Route path="/edit-post/:id" element={<EditPost/>}/>
                   <Route path="/post/:id" element={<PostDetails/>}/>
+              </Route>
+
+              {/*counsellor layout*/}
+              <Route element={<CounsellorLayout/>}>
+                  <Route path="/schedule" element={<Schedule/>}/>
+                  <Route path="/view-schedule" element={<ViewSchedule/>}/>
               </Route>
           </Route>
         </Routes>

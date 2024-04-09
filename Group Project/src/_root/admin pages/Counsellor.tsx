@@ -7,7 +7,7 @@ import { useUserContext } from '../../../context/AuthContext';
 import { DeleteUser } from '../../../@/lib/appwrite/api'; 
 
 function Counsellor() {
-  //constants
+  //hooks and others
   const {user} = useUserContext();
   const navigate = useNavigate();
 
@@ -53,7 +53,7 @@ function Counsellor() {
                               {user.role =="admin"?(
                                 <>
                                   <Button 
-                                  onClick={()=> DeleteUser(userU.$id, userU.role)} 
+                                  onClick={()=> DeleteUser(userU.$id, userU.role,usersC.documents[index].imageid)} 
                                   className=' ml-36 mt-[-20px]'>
                                     <img
                                     src="/assets/trash.png"

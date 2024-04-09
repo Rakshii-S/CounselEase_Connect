@@ -6,15 +6,18 @@ import { Loader } from 'lucide-react';
 import { multiFormatDateString } from '../../../@/lib/utils';
 import { Button } from '../../../@/components/ui/button';
 import { deletePostById } from '../../../@/lib/appwrite/api';
-import { Models } from 'appwrite';
 
 
 function PostDetails() {
+  //hooks and others
     const {id} = useParams()
     const {data: post, isPending} = useGetPostById(id || '');
+    const navigate = useNavigate();
+    
+   //tanstack query, appwrite and context 
     const {data: currentUser} = useGetCurrentUserCollection(post?.creator.$id, post?.creator.role);
     const {user} = useUserContext();
-    const navigate = useNavigate();
+
     function deletePost()
     {
       deletePostById(id)
