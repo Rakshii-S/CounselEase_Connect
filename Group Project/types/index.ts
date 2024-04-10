@@ -162,11 +162,21 @@ export type IUpdatePostM = {
 };
 
 //SCHEDULE 
-
 export type ISchedule = {
     counsellorid: string,
     days: any[],
     timeslot: any[],
     status: any[],
     dates: any[]
+}
+
+//APPOINTMENT
+export type IAppointment = {
+    counsellorid: string,
+    studentid: string,
+    semail: string,
+    scontact: string,
+    ccontact: string,
+    date: string,
+    timeslot: string
 }

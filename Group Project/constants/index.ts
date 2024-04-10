@@ -87,7 +87,7 @@ export const sidebarLinksStudent = [
     },
     {
         imgURL: "/assets/appointment.png",
-        route: "/create-post",
+        route: "/appointment",
         label: "Appointments",
     },
 ];
@@ -199,7 +199,7 @@ export const StudentbottombarLink = [
     },
     {
         imgURL: "/assets/appointment.png",
-        route: "/create-post",
+        route: "/appointment",
         label: "Appointments",
     },
 ];

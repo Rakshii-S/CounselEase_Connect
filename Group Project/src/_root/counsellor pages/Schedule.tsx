@@ -1,4 +1,4 @@
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
 import Tooltip from '@mui/material/Tooltip';
@@ -12,16 +12,16 @@ import Loader from "../shared/Loader";
 function Schedule() {
     //context 
     const {user} = useUserContext();
+    const navigate = useNavigate()
     const [view,setView] = useState(false)
     const [newSchedule, setNewSchedule] = useState(false);
+    const [ifSunday, setIfSunday] = useState(false)
 
     //date and day functions
     let date0 = new Date();
     date0.getDate();
     let day0 = date0.getDay()
     let dates:any[] = []
-    if(day0 == 0)//sunday
-        day0=1
 
     //tanstack and appwrite 
     const {mutateAsync: AddSchedule, isPending: addUser} = useAddSchedule();
@@ -46,24 +46,49 @@ function Schedule() {
     
     //add to appwrite
       async function handleAddtoDB() {
+        if(day0 == 0)
+        {
+            setIfSunday(true)
+        }else
+        {
         let status: string[] =[]
         let dt: string[] = []
+        let days: string[] = []
         for(let i=0;i<6;i++)
             {
+                let nullPush = true
+                let nullPush2 = true
                 for(let j=0;j<8;j++)
                     {
                         if(i+1 >= day0)
                         {
-                            let date = new Date();
-                            date.setDate(date.getDate() + i-1);
+                           let date = new Date();
+                            date.setDate(date.getDate() + i-day0+1);
                             let date_0 = date.toISOString().split('T')[0]
-                            dt.push(date_0)
+                            if(!dt.includes(date_0))
+                                {
+                                    dt.push(date_0)
+                                }
+                                if(!days.includes(daysOfWeek[i]))
+                                {
+                                    days.push(daysOfWeek[i])
+                                }
                             status.push(cells[i][j].option)
                         }
                         else
                         {
-                            dt.push("null")
-                            status.push("null")
+                            
+                            if(nullPush)
+                                {
+                                    dt.push("null")
+                                    nullPush = false
+                                }
+                                if(nullPush2)
+                                {
+                                    days.push("null")
+                                    nullPush2 = false
+                                }
+                                status.push("null")
                         }
                     }
             }
@@ -75,38 +100,65 @@ function Schedule() {
                 dates: dates
             })
             console.log(val)
+        }
     }
     //update 
     async function handleUpdatetoDB() {
+        if(day0 == 0)
+            {
+                setIfSunday(true)
+            }else
+            {
         let status: string[] =[]
         let dt: string[] = []
+        let days: string[] = []
+
         for(let i=0;i<6;i++)
             {
+                let nullPush = true
+                let nullPush2 = true
                 for(let j=0;j<8;j++)
                     {
                         if(i+1 >= day0)
                         {
                             let date = new Date();
-                            date.setDate(date.getDate() + i-1);
+                            date.setDate(date.getDate() + i-day0+1);
                             let date_0 = date.toISOString().split('T')[0]
-                            dt.push(date_0)
+                            if(!dt.includes(date_0))
+                            {
+                                dt.push(date_0)
+                            }
+                            if(!days.includes(daysOfWeek[i]))
+                            {
+                                days.push(daysOfWeek[i])
+                            }
                             status.push(cells[i][j].option)
                         }
                         else
                         {
-                            dt.push("null")
+                            if(nullPush)
+                            {
+                                dt.push("null")
+                                nullPush = false
+                            }
+                            if(nullPush2)
+                            {
+                                days.push("null")
+                                nullPush2 = false
+                            }
                             status.push("null")
                         }
                     }
             }
             const val = await updateSchedule({
                 counsellorid: user.accountid,
-                days: daysOfWeek,
+                days: days,
                 timeslot: timeSlots,
                 status: status,
-                dates: dates
+                dates: dt
             })
             console.log(val)
+        }
     }
 
     //retrieve the schedule data from the database
@@ -118,7 +170,7 @@ function Schedule() {
             return {
                 ...cell,
                 option,
-                color: option === 'Available' ? 'lightblue' : option === 'null' ? 'grey' : 'lightcoral',
+                color: option === 'Available' ? 'lightblue' : (option === 'null' ? 'grey' : (option === 'Booked' ? 'yellow' : 'lightcoral')),
                 editing: false
             };
         })
@@ -159,7 +211,7 @@ function Schedule() {
             setView(true)
         }
     };
-
+    console.log(counsellorID)
     return (
         <div className="flex flex-wrap lg:flex-row lg:flex-wrap md:flex-row md:flex-wrap flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar">
             <div className='bg-gray-900 w-full h-14 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-center items-center'>
@@ -180,8 +232,18 @@ function Schedule() {
                                 Add new schedule
                     </button>
                 </>
+            ): ifSunday == true ?(
+                <>
+                    <div className='bg-gray-900 w-full h-56 text-2xl rounded-2xl  flex flex-row justify-center items-center'>
+                        <p className="schedule-heading">You cannot update schedules on sunday.</p>
+                    </div>
+                    <button onClick={()=> {navigate('/view-schedule');setIfSunday(false)}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-14">
+                                Go Back
+                    </button>
+                </>
             ):(
-            <div>
+                <>
+                    <div>
                 <div>
                     <Table>
                         <TableHead>
@@ -205,8 +267,14 @@ function Schedule() {
                                                 </>
                                             ) : (
                                                 <> 
-                                                {cell.option}
-                                                    <EditIcon onClick={() => handleEditClick(cell.day, cell.time)} />
+                                                    {cell.option}
+                                                    {cell.option != "null"?
+                                                    (
+                                                        <EditIcon onClick={() => handleEditClick(cell.day, cell.time)} />
+                                                    ):
+                                                    (
+                                                        <></>
+                                                    )}
                                                 </>
                                             )}
                                         </TableCell>
@@ -231,7 +299,9 @@ function Schedule() {
                         </button>
                     </div>
                 </div>
-            </div>)}
+            </div>
+                </>
+            )}
             {newSchedule ? 
             (
                 <div>

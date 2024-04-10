@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
+import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID } from "appwrite";
 
@@ -1492,5 +1492,47 @@ export async function updateSchedule(user: ISchedule) {
         window.location.reload()
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function updateScheduleStatus(counsellorid: string, status: string[]) {
+    try {
+        const updateSchedule = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.scheduleCollectionId,
+            counsellorid,
+            {
+                status: status,
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//appointments
+export async function AddAppointment(user: IAppointment): Promise<any> {
+    try {
+        console.log(user)
+        const Nuser = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.appointmentCollectionId,
+            user.counsellorid,
+            {
+                counsellorid: user.counsellorid,
+                studentid: user.studentid,
+                Semail: user.semail,
+                Scontact: user.scontact,
+                Ccontact: user.ccontact,
+                date: user.date,
+                timeslot: user.timeslot
+            })
+        console.log(Nuser)
+        if (!Nuser) {
+            throw Error;
+        }
+        alert("Appointment booked successfully.")
+        window.location.reload()
+    } catch (error) {
+        return error
     }
 }

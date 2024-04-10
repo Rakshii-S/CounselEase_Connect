@@ -27,6 +27,7 @@ export enum QUERY_KEYS {
     GET_COUNSELLOR_BY_ID_C = "getCounsellorByIdC",
     GET_RECENT_COUNSELLORS_U = "getRecentCounsellorU",
     GET_RECENT_COUNSELLORS_C= "getRecentCounsellorC",
+    GET_COUNSELLOR_BY_ID = "getCounsellorById",
 
     //BUDDY KEYS 
     GET_BUDDY_BY_ID_U = "getBuddyByIdU",

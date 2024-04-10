@@ -39,6 +39,10 @@ import MEditPost from './_root/groups/MEditPost'
 import Schedule from './_root/counsellor pages/Schedule'
 import ViewSchedule from './_root/counsellor pages/ViewSchedule'
 
+import StudentLayout from './_root/student pages/StudentLayout'
+import AppointmentDisplay from './_root/student pages/AppointmentDisplay'
+import ViewAppointment from './_root/student pages/ViewAppointment'
+
 function App() {
 
   return (
@@ -90,6 +94,12 @@ function App() {
               <Route element={<CounsellorLayout/>}>
                   <Route path="/schedule" element={<Schedule/>}/>
                   <Route path="/view-schedule" element={<ViewSchedule/>}/>
+              </Route>
+
+              {/*student layout */}
+              <Route element={<StudentLayout/>}>
+                  <Route path="/appointment" element={<AppointmentDisplay/>}/>
+                  <Route path="/view-appointment/:id" element={<ViewAppointment/>}/>
               </Route>
           </Route>
         </Routes>

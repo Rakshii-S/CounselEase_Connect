@@ -31,24 +31,25 @@ function ViewSchedule() {
     useEffect(() => {
         const dbCells = cells.map((row, rowIndex) =>
             row.map((cell, colIndex) => {
-                const index = rowIndex * row.length + colIndex; // Calculate the index based on the row and column index
-                const option = counsellorID?.status[index % counsellorID?.status.length]; // Use modulo operator to loop through the options array
+                const index = rowIndex * row.length + colIndex;
+                const option = counsellorID?.status[index % counsellorID?.status.length];
     
                 return {
                     ...cell,
                     option,
-                    color: option === 'Available' ? 'lightblue' : option === 'null' ? 'grey' : 'lightcoral',
+                    color: option === 'Available' ? 'lightblue' : (option === 'null' ? 'grey' : (option === 'Booked' ? 'red' : 'lightcoral')),
                     editing: false
                 };
             })
         );
-        if(counsellorID?.counsellorid == user.accountid)
-        {
-            setCells(dbCells); // Update state with the new cells
-        }else{
-            console.log("hi")
+    
+        // Check if dbCells is different from the current cells state
+        const dbCellsString = JSON.stringify(dbCells);
+        const cellsString = JSON.stringify(cells);
+        if (dbCellsString !== cellsString && counsellorID?.counsellorid == user.accountid) {
+            setCells(dbCells); // Update state with dbCells if it's different
         }
-    }, [counsellorID, daysOfWeek, timeSlots, cells]); // Add dependencies if needed
+    }, [counsellorID, daysOfWeek, timeSlots]); // Removed cells from dependencies
 
     return (
         <div className="flex flex-wrap lg:flex-row lg:flex-wrap md:flex-row md:flex-wrap flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar">
