@@ -49,7 +49,7 @@ export const sidebarLinksCounsellor = [
     },
     {
         imgURL: "/assets/appointment.png",
-        route: "/create-post",
+        route: "/counsellor-appointments",
         label: "Appointments",
     },
     {
@@ -161,7 +161,7 @@ export const CounsellorbottombarLink = [
     },
     {
         imgURL: "/assets/appointment.png",
-        route: "/create-post",
+        route: "/counsellor-appointments",
         label: "Appointments",
     },
     {

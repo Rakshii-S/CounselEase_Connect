@@ -1536,3 +1536,48 @@ export async function AddAppointment(user: IAppointment): Promise<any> {
         return error
     }
 }
+
+export async function getRecentAppointment() {
+    try {
+        const schedule = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.appointmentCollectionId,
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getRecentStudents() {
+    const counsellor = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.studentCollectionId,
+    )
+    if (!counsellor) throw Error
+    return counsellor
+}
+
+export async function getUser() {
+    const counsellor = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.userCollectionId,
+    )
+    if (!counsellor) throw Error
+    return counsellor
+}
+
+
+export async function getAppointmentById(userId: string) {
+    try {
+        console.log(userId)
+        const schedule = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.appointmentCollectionId,
+            userId
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}

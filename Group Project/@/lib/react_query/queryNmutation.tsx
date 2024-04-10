@@ -1,6 +1,6 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from '../../../types';
-import { AddAppointment, AddSchedule, AddStudentToGroup, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, getScheduleById, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateSchedule, updateUserAccount} from '../appwrite/api';
+import { AddAppointment, AddSchedule, AddStudentToGroup, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getAppointmentById, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentAppointment, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, getRecentStudents, getScheduleById, getUser, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateSchedule, updateUserAccount} from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 //create new user account 
@@ -404,5 +404,34 @@ export const useUpdateSchedule = () => {
 export const useAddAppointment = () => {
     return useMutation({
         mutationFn: (user:IAppointment) => AddAppointment(user)
+    })
+}
+
+export const useGetRecentAppointments= () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+        queryFn: getRecentAppointment,
+    })
+}
+
+export const useGetRecentStudents= () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_STUDENTS],
+        queryFn: getRecentStudents,
+    })
+}
+
+export const useGetAppointmentbyId = (userId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_COUNSELLOR_BY_ID, userId],
+        queryFn: () => getAppointmentById(userId),
+        enabled:  !!userId
+    })
+}
+
+export const useGetUser = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_USER],
+        queryFn: getUser
     })
 }

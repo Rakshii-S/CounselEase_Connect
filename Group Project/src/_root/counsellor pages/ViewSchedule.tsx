@@ -37,7 +37,7 @@ function ViewSchedule() {
                 return {
                     ...cell,
                     option,
-                    color: option === 'Available' ? 'lightblue' : (option === 'null' ? 'grey' : (option === 'Booked' ? 'red' : 'lightcoral')),
+                    color: option === 'Available' ? 'lightblue' : (option === 'null' ? 'grey' : (option === 'Booked' ? 'yellow' : 'lightcoral')),
                     editing: false
                 };
             })

@@ -172,7 +172,6 @@ export const AppointmentToDB = z.object({
           ccontact: userC?.contact,
           semail: user.email,
       })
-      console.log(appoin)
   }
 
     return (
@@ -255,7 +254,7 @@ export const AppointmentToDB = z.object({
               <p>Book</p>
             )}
             </Button>
-          <Button type="button" onClick={()=>navigate('/appointment')}  className="bg-sky-800 m-4 p-4 mb-10 rounded-xl w-56 h-18">Go back</Button>
+          <Button type="button" onClick={()=>navigate('/book-appointment')}  className="bg-sky-800 m-4 p-4 mb-10 rounded-xl w-56 h-18">Go back</Button>
           </center>
       </form>
       </Form>

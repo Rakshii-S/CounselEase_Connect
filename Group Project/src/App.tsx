@@ -42,6 +42,10 @@ import ViewSchedule from './_root/counsellor pages/ViewSchedule'
 import StudentLayout from './_root/student pages/StudentLayout'
 import AppointmentDisplay from './_root/student pages/AppointmentDisplay'
 import ViewAppointment from './_root/student pages/ViewAppointment'
+import Appointments from './_root/student pages/Appointments'
+import YourAppointments from './_root/student pages/YourAppointments'
+import CounsellorAppointments from './_root/counsellor pages/CounsellorAppointments'
+import CAppointmentView from './_root/counsellor pages/CAppointmentView'
 
 function App() {
 
@@ -94,12 +98,16 @@ function App() {
               <Route element={<CounsellorLayout/>}>
                   <Route path="/schedule" element={<Schedule/>}/>
                   <Route path="/view-schedule" element={<ViewSchedule/>}/>
+                  <Route path="/counsellor-appointments" element={<CounsellorAppointments/>}/>
+                  <Route path="/counsellor-appointment/:id" element={<CAppointmentView/>}/>
               </Route>
 
               {/*student layout */}
               <Route element={<StudentLayout/>}>
-                  <Route path="/appointment" element={<AppointmentDisplay/>}/>
+                  <Route  path="/appointment" element={<Appointments/>}/>
+                  <Route path="/book-appointment" element={<AppointmentDisplay/>}/>
                   <Route path="/view-appointment/:id" element={<ViewAppointment/>}/>
+                  <Route path="/your-appointments/:id" element={<YourAppointments/>}/>
               </Route>
           </Route>
         </Routes>

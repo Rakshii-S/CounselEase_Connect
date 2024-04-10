@@ -268,7 +268,7 @@ function Schedule() {
                                             ) : (
                                                 <> 
                                                     {cell.option}
-                                                    {cell.option != "null"?
+                                                    {cell.option == "Available" || cell.option == "Unavailable"?
                                                     (
                                                         <EditIcon onClick={() => handleEditClick(cell.day, cell.time)} />
                                                     ):
