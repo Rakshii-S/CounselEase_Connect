@@ -59,7 +59,7 @@ function App() {
 
   return (
     <main className='flex h-screen'>
-      <BrowserRouter basename='/'>
+      <BrowserRouter basename='/login'>
       <Toast/>
         <Routes>
           {/*public routes*/}
