@@ -22,14 +22,15 @@ function RightBar()
                     <img 
                      src="/assets/cross.png"
                      alt=""
-                     width={40}
-                     className={`invert-white`}/>
+                     width={35}
+                     className={`ml-[-20px] invert-white`}/>
                 </Button>
                 <Link to={`/profile/${user.accountid}`} className='flex gap-3 items-center'>
                     <img 
                     src={currentUser?.imageUrl || `https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?size=338&ext=jpg&ga=GA1.1.2082370165.1710547200&semt=ais`}
                     alt="profile"
-                    className='h-14 w-14 rounded-full'
+                    width={45}
+                    className=' rounded-full'
                     />
                     <div className='flex flex-col'>
                         <p className='small-regular text-light-3'>
@@ -41,11 +42,11 @@ function RightBar()
                         <li className={`leftsidebar-link group`}>
                             <NavLink
                             to={`/edit-email-password/${user.accountid}`}
-                            className="flex gap-4 items-center p-1">
+                            className="flex gap-4 items-center p-2 text-sm">
                                 <img 
                                 src="/assets/edit2.png"
                                 alt=""
-                                width={35}
+                                width={30}
                                 className={`invert-white`}/>
                                 Update email and password
                             </NavLink>
@@ -53,12 +54,12 @@ function RightBar()
                         {user.role == "student"?(
                             <li className={`leftsidebar-link group`}>
                             <Button
-                            onClick={()=>navigate(`/edit-profile`)}
-                            className="flex gap-4 items-center p-1">
+                            onClick={()=>navigate(`/activity`)}
+                            className="flex gap-4 items-center p-2 text-sm">
                                 <img 
                                 src="/assets/activity.png"
                                 alt=""
-                                width={40}
+                                width={30}
                                 className={`invert-white`}/>
                                 <p>Activities</p>
                             </Button>
@@ -69,11 +70,11 @@ function RightBar()
                         <li className={`leftsidebar-link group`}>
                             <Button
                             onClick={()=>navigate(`/edit-profile/${user.accountid}`)}
-                            className="flex gap-4 items-center p-1">
+                            className="flex gap-4 items-center p-2 text-sm">
                                 <img 
                                 src="/assets/edit.png"
                                 alt=""
-                                width={37}
+                                width={32}
                                 className={`invert-white`}/>
                                 <p>Edit profile</p>
                             </Button>
@@ -87,7 +88,7 @@ function RightBar()
                 <img 
                      src="/assets/menu.png"
                      alt=""
-                     width={40}
+                     width={35}
                      className='invert-white'/>
                 </div>
             </Button>

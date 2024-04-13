@@ -4,7 +4,7 @@ import { AiOutlineCalendar } from "react-icons/ai";
 import Tooltip from '@mui/material/Tooltip';
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
+import { useGetRecentSchedule, useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 
 function ViewSchedule() {
@@ -17,8 +17,8 @@ function ViewSchedule() {
 
     let daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let timeSlots = [
-        '9:00-9:50', '9:55-10:45', '10:50-11:40', '11:45-12:35',
-        '12:40-1:25', '1:30-2:20', '2:25-3:15', '3:20-4:10'
+        '09:00-09:50', '09:55-10:45', '10:50-11:40', '11:45-12:35',
+        '12:40-01:25', '01:30-02:20', '02:25-03:15', '03:20-04:10'
     ];
     
     const [cells, setCells] = useState(() =>
@@ -53,13 +53,8 @@ function ViewSchedule() {
 
     return (
         <div className="flex flex-wrap lg:flex-row lg:flex-wrap md:flex-row md:flex-wrap flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar">
-            <div className='bg-gray-900 w-full h-14 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-center items-center'>
-                <Tooltip title="Go Back">
-                    <Link to="/" className="mr-auto"><GoArrowLeft /></Link>
-                </Tooltip>
-                <p className="schedule-heading">Schedule</p>
-                <div className="mr-auto"></div> {/* Spacer */}
-                <AiOutlineCalendar />
+            <div className='h3-bold md:h3-bold text-left w-full'>
+                <p>Schedule</p>
             </div>
             <div>
                 <div >

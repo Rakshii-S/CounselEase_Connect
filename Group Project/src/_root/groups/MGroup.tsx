@@ -30,36 +30,41 @@ function MGroup() {
   return (
     <>
     <div className="common-container">
-        <div className="w-full bg-gray-900 flex flex-row justify-between">
-          <Button 
-            className={`mt-16 ml-4 lg:ml-24 mr-24 mb-10 h-16 p-4 rounded-xl hover:bg-slate-800 bg-black `}
-            onClick={allGroups}>
-            Groups
-          </Button>
-          <Button 
-            className="mt-16 ml-24 mr-24 mb-10 h-16 p-4 rounded-xl bg-black hover:bg-slate-800"
+    <div className='h3-bold md:h3-bold text-left w-full mb-[-40px]'>
+                    <p>Group Feed</p>
+    </div>
+        <div className="w-full flex flex-row h-32 justify-between rounded-md">
+        <Button 
+            className={`mt-8 ml-4 lg:ml-24 mr-24 mb-10 h-16 p-4 rounded-xl bg-gray-900 hover:bg-slate-700 ${Jgroups && 'bg-gray-700'}`}
             onClick={joinedGroups}>
             Joined Groups
           </Button>
+          <Button 
+            className={`mt-8 ml-24 mr-24 mb-10 h-16 p-4 rounded-xl bg-gray-900 hover:bg-slate-700 ${Agroups && 'bg-gray-700'}`}
+            onClick={allGroups}>
+            Groups
+          </Button>
         </div>
-        <div className="flex flex-1 flex-col items-center">
+        <div className="flex flex-1 flex-col w-full ">
         {isGroupLoading && !groups?(
-              <Loader/>
-            ):(<ul className="flex flex-1 flex-col gap-9 w-full">
-                  {Agroups && groups?.documents.map((group: Models.Document) => (
+            <div className="common-container">
+               <Loader/>
+            </div>
+            ):(<ul className="flex flex-1 flex-col gap-9 ">
+                  {Jgroups && groups?.documents.map((group: Models.Document) => (
                     <>
-                    {!group?.studentId.includes(user.accountid)?(
-                        <div className='bg-gray-900 ml-4 mr-4 w-auto h-44 rounded-3xl flex flex-row justify-between'>
-                        <div className='p-8 text flex flex-row'>
+                    {group?.studentId.includes(user.accountid) || group?.counsellorId == user.accountid || group?.buddyId == user.accountid?(
+                        <div className='bg-gray-900 w-full h-32 rounded-3xl flex flex-row justify-between'>
+                        <div className='pt-10 pl-8 text flex flex-row'>
                             <img
                                 src={group.imageUrl || `https://i.pinimg.com/474x/60/b1/e4/60b1e4f0d521cfd16e4de3e59a263470.jpg`}
                                 alt="group"
-                                className='rounded-full w-20 h-20'
+                                className='rounded-full w-16 h-16'
                             />
-                            <p className='p-10'>{group.name}</p>
+                            <p className='text-sm pl-4 pt-5'>{group.name}</p>
                         </div>
                         <div className='p-10'>
-                            <Button onClick={()=>navigate(`/view-Mgroup/${group.$id}`)} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-20 h-14">View</Button>
+                            <Button onClick={()=>navigate(`/view-Mgroup/${group.$id}`)} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-24 h-12">View</Button>
                         </div>
                       </div>
                     ):(
@@ -68,20 +73,20 @@ function MGroup() {
                     )}
                   </>
                   ))}
-                  {Jgroups && groups?.documents.map((group: Models.Document) => (
+                  {Agroups && groups?.documents.map((group: Models.Document) => (
                     <>
-                    {group?.studentId.includes(user.accountid) || group?.counsellorId == user.accountid || group?.buddyId == user.accountid?(
-                        <div className='bg-gray-900 ml-4 mr-4 w-auto h-44 rounded-3xl flex flex-row justify-between'>
-                        <div className='p-8 text flex flex-row'>
+                    {!group?.studentId.includes(user.accountid)?(
+                        <div className='bg-gray-900 ml-4 mr-4 w-auto h-32 rounded-3xl flex flex-row justify-between'>
+                        <div className='pt-10 pl-8 text flex flex-row'>
                             <img
                                 src={group.imageUrl || `https://i.pinimg.com/474x/60/b1/e4/60b1e4f0d521cfd16e4de3e59a263470.jpg`}
                                 alt="group"
-                                className='rounded-full w-20 h-20'
+                                className='rounded-full w-16 h-16'
                             />
-                            <p className='p-10'>{group.name}</p>
+                            <p className='text-sm pl-4 pt-5'>{group.name}</p>
                         </div>
                         <div className='p-10'>
-                            <Button onClick={()=>navigate(`/view-Mgroup/${group.$id}`)} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-32 h-20">View</Button>
+                            <Button onClick={()=>navigate(`/view-Mgroup/${group.$id}`)} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-24 h-12">View</Button>
                         </div>
                       </div>
                     ):(

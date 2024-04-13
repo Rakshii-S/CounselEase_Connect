@@ -180,3 +180,15 @@ export type IAppointment = {
     date: string,
     timeslot: string
 }
+
+//SUMMARY
+export type ISummary = {
+    idd: string,
+    counsellorid: string,
+    studentid: string,
+    studentcode: string,
+    summary: string,
+    regno: string
+    email: string,
+    name: string
+}

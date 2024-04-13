@@ -22,15 +22,18 @@ useEffect(()=>{
             <img 
                     src="/assets/mainlogo.png"
                     alt="logo"
-                    width={50}
+                    width={45}
+                    height={45}
                 />
             </Link>
             <div className='flex gap-4'>
                 {user.role=="student" ?(
-                    <Button variant="ghost" className='shad-button_ghost'>
+                    <Button 
+                    onClick={()=>navigate('/activity')}
+                    variant="ghost" className='shad-button_ghost'>
                     <img 
                     src="/assets/activity.png" 
-                    width={37}
+                    width={32}
                     alt="activity"
                     className={`invert-white`}/>
                 </Button>
@@ -43,13 +46,13 @@ useEffect(()=>{
                                 <img 
                                 src="/assets/edit2.png"
                                 alt=""
-                                width={35}
+                                width={25}
                                 className={`invert-white`}/>
                             </NavLink>
                 <Button variant="ghost" className='shad-button_ghost' onClick={()=>signOut()}>
                     <img 
                     src="/assets/logout.png" 
-                    width={30}
+                    width={25}
                     alt="logout"
                     className={`invert-white`}/>
                 </Button>
@@ -57,7 +60,8 @@ useEffect(()=>{
                     <img 
                     src={currentUser?.imageUrl || `https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg?size=338&ext=jpg&ga=GA1.1.2082370165.1710547200&semt=ais`}
                 alt="profile"
-                className='h-10 w-10 rounded-full'
+                width={35}
+                className=' rounded-full'
                     />
                 </Link>
             </div>

@@ -1,0 +1,28 @@
+.App {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.breathing-instructions {
+    margin-bottom: 20px;
+}
+
+.breathing-timer {
+    margin-bottom: 20px;
+}
+
+.breathing-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.breathing-buttons button:disabled {
+    background-color: #b3b3b3;
+    cursor: not-allowed;
+}

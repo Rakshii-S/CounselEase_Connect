@@ -45,7 +45,15 @@ import ViewAppointment from './_root/student pages/ViewAppointment'
 import Appointments from './_root/student pages/Appointments'
 import YourAppointments from './_root/student pages/YourAppointments'
 import CounsellorAppointments from './_root/counsellor pages/CounsellorAppointments'
-import CAppointmentView from './_root/counsellor pages/CAppointmentView'
+import Summary from './_root/counsellor pages/Summary'
+import ToDo from './_root/activity/ToDo'
+import MeditationTimer from './_root/activity/MeditationTimer'
+import Positive from './_root/activity/Positive'
+import Breathing from './_root/activity/Breathing'
+import ActivityLayout from './_root/activity/ActivityLayout'
+import ViewSummary from './_root/counsellor pages/ViewSummary'
+import Session from './_root/counsellor pages/Session'
+import Report from './_root/counsellor pages/Report'
 
 function App() {
 
@@ -99,7 +107,10 @@ function App() {
                   <Route path="/schedule" element={<Schedule/>}/>
                   <Route path="/view-schedule" element={<ViewSchedule/>}/>
                   <Route path="/counsellor-appointments" element={<CounsellorAppointments/>}/>
-                  <Route path="/counsellor-appointment/:id" element={<CAppointmentView/>}/>
+                  <Route path="/session" element={<Session/>}/>
+                  <Route path="/summary" element={<Summary/>}/>
+                  <Route path="/view-summary/:id" element={<ViewSummary/>}/>
+                  <Route path="/report" element={<Report/>}/>
               </Route>
 
               {/*student layout */}
@@ -108,6 +119,12 @@ function App() {
                   <Route path="/book-appointment" element={<AppointmentDisplay/>}/>
                   <Route path="/view-appointment/:id" element={<ViewAppointment/>}/>
                   <Route path="/your-appointments/:id" element={<YourAppointments/>}/>
+                  {/* Activity section */}
+                      <Route path="/activity" element={<ActivityLayout/>}/>
+                      <Route path="/to-do" element={<ToDo/>}/>
+                      <Route path="/meditation-timer" element={<MeditationTimer/>}/>
+                      <Route path="/positive-affirmation" element={<Positive/>}/>
+                      <Route path="/mindfull-breathing" element={<Breathing/>}/>
               </Route>
           </Route>
         </Routes>

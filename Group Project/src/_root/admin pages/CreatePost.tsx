@@ -8,10 +8,11 @@ function Post() {
             <img
             src="/assets/plus.png"
             alt="add user"
-            width={80}
-            className="pr-2"
+            className="w-14 h-14 pr-2"
             />
-            <p className="p-2 mt-4 text-xl">Create a new post</p>
+                <div className='flex flex-row justify-between h3-bold md:h3-bold ml-4 mt-2 text-left w-full'>
+              <p>Create a new group</p>
+              </div>
           </div>
           <PostForm action="Create"/>
       </div>

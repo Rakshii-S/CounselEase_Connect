@@ -1,5 +1,5 @@
 import { Button } from '../../../@/components/ui/button'
-import { useGetCounsellorByIdC, useGetCounsellorByIdU } from '../../../@/lib/react_query/queryNmutation';
+import { useGetAppointmentbyId, useGetCounsellorByIdC, useGetCounsellorByIdU, useGetRecentAppointments, useGetRecentSchedule } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
@@ -14,21 +14,27 @@ import AppointmentForm from './AppointmentForm';
 
 function ViewAppointment() {
   //hooks and others
+  const {user} = useUserContext()
   const navigate = useNavigate();
   const {id} = useParams()
   let viewSchedule = false;
-
+  let Cid = false
    //tanstack query, appwrite and context 
   const {data: userU, isPending: isUserU} = useGetCounsellorByIdU(id || '');
   const {data: userC, isPending: isUserC} = useGetCounsellorByIdC(id || '');
-
-  const {data: counsellorID} = useGetSchedulebyId(userU?.accountid);
+  const {data: counsellorID} = useGetSchedulebyId(id || '');
+  const {data:appointments} = useGetRecentAppointments();
+  for(let i =0 ;i< Number(appointments?.documents.length); i++)
+  {
+     if(appointments?.documents[i].counsellorid == userC?.accountid && appointments?.documents[i].studentid == user.accountid)
+        Cid = true
+  }
 
   let daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   let timeSlots = [
-      '9:00-9:50', '9:55-10:45', '10:50-11:40', '11:45-12:35',
-      '12:40-1:25', '1:30-2:20', '2:25-3:15', '3:20-4:10'
-  ];
+    '09:00-09:50', '09:55-10:45', '10:50-11:40', '11:45-12:35',
+    '12:40-01:25', '01:30-02:20', '02:25-03:15', '03:20-04:10'
+];
   
   const [cells, setCells] = useState(() =>
     daysOfWeek.map(day =>
@@ -66,46 +72,50 @@ useEffect(() => {
     }
   return (
     <div className="common-container">
-        {isUserU && isUserC?(<Loader/>):(
+        {isUserU && isUserC?(
+        <div className='common-container'>
+            <Loader/>
+        </div>):(
           <>
-            <div className='bg-gray-900 w-full h-14 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-center items-center'>
-                <p className="schedule-heading">Counsellor information</p>
-                <div className="mr-auto"></div> {/* Spacer */}
-                <AiOutlineCalendar />
-            </div>
-
-            <div className='bg-slate-900 w-full h-[250px]  rounded-xl  flex flex-col md:flex-col lg:flex-row p-10'>
+        <div className='h3-bold md:h3-bold text-left w-full'>
+          <p>Counsellor information</p>
+        </div>
+            <div className='bg-slate-900 w-full h-full  rounded-xl  flex flex-col md:flex-col lg:flex-row p-10'>
                 <img
                 src={userC?.imageUrl || `https://i.pinimg.com/474x/60/b1/e4/60b1e4f0d521cfd16e4de3e59a263470.jpg`}
                 alt="profile"
                 className='ml-10 mr-10 w-40 rounded-full h-40'
                 />
-                <div className='mt-[-10px] p-4'>
-                    <div className='flex flex-row text-xl'>
-                    <p className='pl-10 pt-5 pr-5'>Name:</p>
-                    <p className='pl-3 pt-5'>{userC?.username}</p>
-                </div>
-                <div className='flex flex-row text-xl'>
-                    <p className='pl-10 pt-5 pr-5'>Email:</p>
-                    <p className='pl-3 pt-5'>{userU?.email}</p>
-                </div>
-                <div className='flex flex-row text-xl'>
-                    <p className='pl-10 pt-5 pr-5'>Block:</p>
-                    <p className='pl-3 pt-5'>{userC?.block}</p>
-                </div>
+                <div className='p-4 md:pt-10 md:pl-40'>
+                <div className='text-xl text-center'>
+                <p>{userC?.username}</p>
+              </div>
+              <div className='text-lg text-light-3 text-center'>
+                <p className='pt-3'>{userU?.email}</p>
+              </div>
+              <div className='text-lg text-light-3 text-center'>
+                <p className='pt-2'>{userC?.block}</p>
+              </div>
                 </div>
             </div>
 
             {viewSchedule == true?(
                 <>
-                <div className='bg-gray-900 w-full h-56 pt-20 pb-20 text-2xl rounded-2xl  flex flex-row justify-center items-center'>
-                    <p className="schedule-heading">No schedules updated yet.</p>
+                <div className='bg-gray-900 w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
+                        <p className="schedule-heading">No schedules updated yet.</p>
                 </div>
                 <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
                 </>
+            ): Cid == true ?(
+                <>
+                <div className='bg-gray-900 w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
+                        <p className="schedule-heading">You have already booked an appointment.</p>
+                </div>
+                <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
+                </>  
             ):(
                 <>
-                    <div>
+                <div>
                 <div >
                     <Table>
                         <TableHead>

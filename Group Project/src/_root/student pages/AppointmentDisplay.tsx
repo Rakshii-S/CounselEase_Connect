@@ -17,21 +17,9 @@ function AppointmentDisplay() {
   return (
     <>
     <div className="common-container">
-      {user.role == "admin"?(
-          <div className='bg-gray-900 w-full h-24 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-between'>
-          <p>Add new Counsellor</p>
-          <Link to="/add-counsellor">
-            <img
-            src="/assets/plus.png"
-            width={40}
-            />
-          </Link>
-        </div>
-      ):(
-        <div className='h3-bold md:h2-bold text-left w-full'>
+    <div className='h3-bold md:h3-bold text-left w-full'>
           <p>Counsellor profiles</p>
         </div>
-      )}
         {isUserLoading1 && isUserLoading2 && !usersU && !usersC?(
               <Loader/>
             ):(<ul>
@@ -40,11 +28,11 @@ function AppointmentDisplay() {
                     <div key={userU.id}>
                       {usersC?.documents && index < usersC.documents.length && (
                         <>
-                        <div className='lg:w-[800px] md:w-[500px] h-[100px] w-[400px] p-6 bg-gray-900 rounded-3xl flex flex-row m-4'>
+                        <div className='text-sm lg:w-[800px] md:w-[500px] h-[80px] w-[400px] p-2 bg-gray-900 rounded-3xl flex flex-row m-4'>
                                   <img
                                     src={usersC.documents[index].imageUrl || `https://i.pinimg.com/474x/60/b1/e4/60b1e4f0d521cfd16e4de3e59a263470.jpg`}
                                     alt="profile"
-                                    className='w-16 h-16 rounded-full'
+                                    className='w-14 h-14 rounded-full'
                                     />
                             <div className='flex flex-row justify-between w-full'>
                                   <div className='pl-6 text-md mt-4'>{usersC.documents[index].username}</div>

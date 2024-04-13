@@ -54,7 +54,7 @@ export const sidebarLinksCounsellor = [
     },
     {
         imgURL: "/assets/summary.png",
-        route: "/create-post",
+        route: "/summary",
         label: "Session Summary",
     },
 ];
@@ -79,11 +79,6 @@ export const sidebarLinksStudent = [
         imgURL: "/assets/group.png",
         route: "/mgroups",
         label: "Group",
-    },
-    {
-        imgURL: "/assets/report.png",
-        route: "/create-post",
-        label: "Session Report",
     },
     {
         imgURL: "/assets/appointment.png",
@@ -157,7 +152,7 @@ export const CounsellorbottombarLink = [
     {
         imgURL: "/assets/schedule.png",
         route: "/view-schedule",
-        label: "My Schedule",
+        label: "Schedule",
     },
     {
         imgURL: "/assets/appointment.png",
@@ -166,8 +161,8 @@ export const CounsellorbottombarLink = [
     },
     {
         imgURL: "/assets/summary.png",
-        route: "/create-post",
-        label: "Session Summary",
+        route: "/summary",
+        label: "Summary",
     },
 ];
 
@@ -191,11 +186,6 @@ export const StudentbottombarLink = [
         imgURL: "/assets/group.png",
         route: "/mgroups",
         label: "Group",
-    },
-    {
-        imgURL: "/assets/report.png",
-        route: "/create-post",
-        label: "Session Report",
     },
     {
         imgURL: "/assets/appointment.png",

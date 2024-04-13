@@ -47,7 +47,6 @@ function LoginForm() {
 
     const isLoggedIn = await checkAuthUser();
     if(isLoggedIn){
-      console.log(isLoggedIn)
       form.reset();
       navigate("/");
     }else{

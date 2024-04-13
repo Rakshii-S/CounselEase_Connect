@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel} from "../../../@/components/ui/form";
 import { Button } from "../../../@/components/ui/button";
 import Loader from "../shared/Loader";
-import {  useAddAppointment, useGetCounsellorByIdC, useGetCounsellorByIdU,useGetCurrentUserCollection,useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
+import {  useAddAppointment, useGetCounsellorByIdC, useGetCounsellorByIdU,useGetCurrentUserCollection,useGetRecentSchedule,useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
 import { useForm } from "react-hook-form";
 import { Select, SelectContent,  SelectItem,SelectTrigger, SelectValue } from "../../../@/components/ui/select"
 import { useState } from "react";
@@ -25,12 +25,11 @@ export const AppointmentToDB = z.object({
   const navigate = useNavigate();
   const {user} = useUserContext();
   const {id} = useParams()
-
   //tanstack query, appwrite and context 
   
   const {data: userU} = useGetCounsellorByIdU(id || '');
   const {data: userC} = useGetCounsellorByIdC(id || '');
-  const {data: counsellorID} = useGetSchedulebyId(userU?.accountid);
+  const {data: counsellorID} = useGetSchedulebyId(id || '');
   const {mutateAsync: AddAppointment, isPending: addUser} = useAddAppointment();
 
   //filter null from the dates
@@ -106,8 +105,6 @@ export const AppointmentToDB = z.object({
     TimeSlot.push(counsellorID?.timeslot[i])
   }
 
-  
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof AppointmentToDB>>({
     resolver: zodResolver(AppointmentToDB),
@@ -121,63 +118,83 @@ export const AppointmentToDB = z.object({
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof AppointmentToDB>) 
   {
-      for(let i=0 ;i<8;i++)
-      {
-        if(selectedTime == TimeSlot[i])   
-          booked = i
-      }
-      if(counsellorID?.days[Dayy-1] == "Monday")
-      {
-        finalBooked = booked+0;
-      }
-      if(counsellorID?.days[Dayy-1] == "Tuesday")
-      {
-        finalBooked = booked+8;
-      }
-      if(counsellorID?.days[Dayy-1] == "Wednesday")
-      {
-        finalBooked = booked+16;
-      }
-      if(counsellorID?.days[Dayy-1] == "Thursday")
-      {
-        finalBooked = booked+24;
-      }
-      if(counsellorID?.days[Dayy-1] == "Friday")
-      {
-        finalBooked = booked+32;
-      }
-      if(counsellorID?.days[Dayy-1] == "Saturday")
-      {
-        finalBooked = booked+40;
-      }
+    let time = new Date();
+    let timee = time.getHours()
+    time.setDate(time.getDate() + 0);
+    let datee= time.toISOString().split('T')[0]
+    let selectedtime:string = selectedTime.substring(0,2)
+    
+    if(selectedtime == "01")
+      selectedtime = "13"
+    else if(selectedtime == "02")
+      selectedtime = "14"
+    else if(selectedtime == "03")
+      selectedtime = "15"
+    else if(selectedtime == "04")
+      selectedtime = "16"
+    if(Number(selectedtime) < timee && datee == selectedDate)
+    {
+      alert("The session is over.")
+      return
+    }
+    else{
+        for(let i=0 ;i<8;i++)
+        {
+          if(selectedTime == TimeSlot[i])   
+            booked = i
+        }
+        if(counsellorID?.days[Dayy-1] == "Monday")
+        {
+          finalBooked = booked+0;
+        }
+        if(counsellorID?.days[Dayy-1] == "Tuesday")
+        {
+          finalBooked = booked+8;
+        }
+        if(counsellorID?.days[Dayy-1] == "Wednesday")
+        {
+          finalBooked = booked+16;
+        }
+        if(counsellorID?.days[Dayy-1] == "Thursday")
+        {
+          finalBooked = booked+24;
+        }
+        if(counsellorID?.days[Dayy-1] == "Friday")
+        {
+          finalBooked = booked+32;
+        }
+        if(counsellorID?.days[Dayy-1] == "Saturday")
+        {
+          finalBooked = booked+40;
+        }
 
-      //setting the value to booked
-      for(let i =0; i<48;i++)
-      {
-          if(i == finalBooked)
-          {
-            Status.push("Booked")
-          }
-          Status.push(counsellorID?.status[i])
-      }
+        //setting the value to booked
+        for(let i =0; i<48;i++)
+        {
+            if(i == finalBooked)
+              Status.push("Booked")
+            else
+              Status.push(counsellorID?.status[i])
+        }
 
-      //update schedule 
-      await updateScheduleStatus(userU?.accountid,Status)
+        //update schedule 
+        await updateScheduleStatus(userU?.accountid,Status)
 
-      //add appointment details
-      const appoin = await AddAppointment({
-          ...values,
-          counsellorid: userU?.accountid,
-          studentid: user.accountid,
-          ccontact: userC?.contact,
-          semail: user.email,
-      })
+        //add appointment details
+        const appoin = await AddAppointment({
+            ...values,
+            counsellorid: userU?.accountid,
+            studentid: user.accountid,
+            ccontact: userC?.contact,
+            semail: user.email,
+        })
+    }
   }
 
     return (
     <>
-        <div className='bg-gray-900 w-full h-14 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-center items-center'>
-                <p className="schedule-heading">Book your appointment</p>
+       <div className='h3-bold md:h3-bold text-left w-full'>
+          <p>Book your appointment</p>
         </div>
     <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-center">
@@ -245,7 +262,7 @@ export const AppointmentToDB = z.object({
       </>
      )}
        <center>
-          <Button type="submit" className="bg-sky-800 m-4 p-4 mb-10 rounded-xl w-56 h-18">
+          <Button type="submit" className="bg-sky-800 m-4 p-4 mb-2 rounded-xl w-32 h-14">
             {addUser?(
               <div className="pl-20">
                 <Loader/>
@@ -254,7 +271,7 @@ export const AppointmentToDB = z.object({
               <p>Book</p>
             )}
             </Button>
-          <Button type="button" onClick={()=>navigate('/book-appointment')}  className="bg-sky-800 m-4 p-4 mb-10 rounded-xl w-56 h-18">Go back</Button>
+          <Button type="button" onClick={()=>navigate('/book-appointment')}  className="bg-sky-800 m-4 p-4 mb-10 rounded-xl w-32 h-14">Go back</Button>
           </center>
       </form>
       </Form>

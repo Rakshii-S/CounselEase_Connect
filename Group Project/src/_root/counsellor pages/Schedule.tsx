@@ -5,7 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import { useAddSchedule, useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
+import { useAddSchedule, useGetRecentSchedule, useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 import Loader from "../shared/Loader";
 
@@ -23,15 +23,16 @@ function Schedule() {
     let day0 = date0.getDay()
     let dates:any[] = []
 
+
     //tanstack and appwrite 
     const {mutateAsync: AddSchedule, isPending: addUser} = useAddSchedule();
-    const {data: counsellorID} = useGetSchedulebyId(user.accountid || '');
     const {mutateAsync: updateSchedule, isPending: isLoadingUpdate} = useUpdateSchedule();
-
+    const {data: counsellorID} = useGetSchedulebyId(user.accountid || '');
+    
     let daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     let timeSlots = [
-        '9:00-9:50', '9:55-10:45', '10:50-11:40', '11:45-12:35',
-        '12:40-1:25', '1:30-2:20', '2:25-3:15', '3:20-4:10'
+        '09:00-09:50', '09:55-10:45', '10:50-11:40', '11:45-12:35',
+        '12:40-01:25', '01:30-02:20', '02:25-03:15', '03:20-04:10'
     ];
     
     const [cells, setCells] = useState(() =>
@@ -63,7 +64,7 @@ function Schedule() {
                         if(i+1 >= day0)
                         {
                            let date = new Date();
-                            date.setDate(date.getDate() + i-day0+1);
+                            date.setDate(date.getDate() + (i+1)-day0);
                             let date_0 = date.toISOString().split('T')[0]
                             if(!dt.includes(date_0))
                                 {
@@ -99,7 +100,6 @@ function Schedule() {
                 status: status,
                 dates: dates
             })
-            console.log(val)
         }
     }
     //update 
@@ -122,7 +122,7 @@ function Schedule() {
                         if(i+1 >= day0)
                         {
                             let date = new Date();
-                            date.setDate(date.getDate() + i-day0+1);
+                            date.setDate(date.getDate() + (i+1)-day0);
                             let date_0 = date.toISOString().split('T')[0]
                             if(!dt.includes(date_0))
                             {
@@ -157,7 +157,6 @@ function Schedule() {
                 status: status,
                 dates: dt
             })
-            console.log(val)
         }
     }
 
@@ -211,16 +210,10 @@ function Schedule() {
             setView(true)
         }
     };
-    console.log(counsellorID)
     return (
         <div className="flex flex-wrap lg:flex-row lg:flex-wrap md:flex-row md:flex-wrap flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar">
-            <div className='bg-gray-900 w-full h-14 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-center items-center'>
-                <Tooltip title="Go Back">
-                    <Link to="/view-schedule" className="mr-auto"><GoArrowLeft /></Link>
-                </Tooltip>
-                <p className="schedule-heading">My Schedule</p>
-                <div className="mr-auto"></div> {/* Spacer */}
-                <AiOutlineCalendar />
+            <div className='h3-bold md:h3-bold text-left w-full'>
+                <p>Schedule</p>
             </div>
             {view == true? 
             (
@@ -237,7 +230,7 @@ function Schedule() {
                     <div className='bg-gray-900 w-full h-56 text-2xl rounded-2xl  flex flex-row justify-center items-center'>
                         <p className="schedule-heading">You cannot update schedules on sunday.</p>
                     </div>
-                    <button onClick={()=> {navigate('/view-schedule');setIfSunday(false)}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-14">
+                    <button onClick={()=> {navigate('/view-schedule');setIfSunday(false)}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl h-14 w-24">
                                 Go Back
                     </button>
                 </>

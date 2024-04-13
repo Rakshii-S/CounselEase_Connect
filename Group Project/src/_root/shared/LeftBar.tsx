@@ -25,7 +25,7 @@ function LeftBar()
                     width={60}
                     height={36}
                 />
-                <p className="text-xl">CounselEase Connect</p>
+                <p className="text-lg"><b>CounselEase Connect</b></p>
             </Link>
                 <ul className='flex flex-col gap-6'>
                {user.role == "admin" && sidebarLinksAdmin .map((link:INavLink) =>{
@@ -34,11 +34,11 @@ function LeftBar()
                     <li key={link.label} className={`leftsidebar-link group ${isActive && 'bg-primary-500'}`}>
                         <NavLink
                         to={link.route}
-                        className="flex gap-4 items-center p-1">
+                        className="flex gap-4 items-center p-2">
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={40}
+                            width={25}
                             className={`invert-white $ {isActive && 'invert-white'}`}/>
                             {link.label}
                         </NavLink>
@@ -51,11 +51,11 @@ function LeftBar()
                     <li key={link.label} className={`leftsidebar-link group ${isActive && 'bg-primary-500'}`}>
                         <NavLink
                         to={link.route}
-                        className="flex gap-4 items-center p-1">
+                        className="flex gap-4 items-center p-2">
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={40}
+                            width={25}
                             className={`invert-white $ {isActive && 'invert-white'}`}/>
                             {link.label}
                         </NavLink>
@@ -68,11 +68,11 @@ function LeftBar()
                     <li key={link.label} className={`leftsidebar-link group ${isActive && 'bg-primary-500'}`}>
                         <NavLink
                         to={link.route}
-                        className="flex gap-4 items-center p-1">
+                        className="flex gap-4 items-center p-2">
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={40}
+                            width={25}
                             className={`invert-white $ {isActive && 'invert-white'}`}/>
                             {link.label}
                         </NavLink>
@@ -85,11 +85,11 @@ function LeftBar()
                     <li key={link.label} className={`leftsidebar-link group ${isActive && 'bg-primary-500'}`}>
                         <NavLink
                         to={link.route}
-                        className="flex gap-4 items-center p-1">
+                        className="flex gap-4 items-center p-2">
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={40}
+                            width={25}
                             className={`invert-white $ {isActive && 'invert-white'}`}/>
                             {link.label}
                         </NavLink>
@@ -102,10 +102,10 @@ function LeftBar()
                 <img 
                 src='assets/logout.png'
                 alt="logout"
-                width={38}
-                className={`invert-white`}
+                width={30}
+                className={`invert-white ml-6`}
                 />
-                <p className="ml-3 text-bold">Logout</p>
+                <p className="ml-4 text-bold">Logout</p>
         </Button>
         </nav>
   )

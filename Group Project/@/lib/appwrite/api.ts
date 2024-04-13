@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
-import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
+import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, ISummary, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 
 // user creation and login
 export async function createUserAccount(user: INewUser) {
@@ -68,7 +68,6 @@ export async function saveUserToDB(user: {
     password: string,
 }) {
     try {
-        console.log(user);
         const newUser = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -191,8 +190,7 @@ export async function DeleteUser(userid: string, userrole: string, imageid: stri
     if (confirm("Do you want to delete the account? ")) {
         const res = await fetch(`http://localhost:3000/deleteUser/${userid}`);
         await res.json();
-        //delete image from the storage 
-        console.log(imageid)
+        //delete image from the storage
         deleteProfile(imageid);
         await databases.deleteDocument(
             appwriteConfig.databaseId,
@@ -289,7 +287,6 @@ export async function UpdateUser(user: IUpdateUser) {
                 password: user.password,
             })
         if (user.role == "student") {
-            console.log(user.role)
             const currentUser1 = await databases.updateDocument(
                 appwriteConfig.databaseId,
                 appwriteConfig.studentCollectionId,
@@ -495,7 +492,6 @@ export async function addBuddy(user: INewBuddy) {
             user.password,
             user.username
         );
-        console.log(newAccount)
         if (!newAccount) throw Error;
 
         const avatarUrl = avatars.getInitials(user.username);
@@ -532,7 +528,6 @@ export async function addBuddy(user: INewBuddy) {
             imageid: uploadedFile.$id,
             contact: user.contact
         })
-        console.log(Cuser)
         const newUser = await saveUserToDB({
             accountid: user.userId,
             password: user.password,
@@ -620,7 +615,6 @@ export async function UpdateBuddyB(user: IUpdateBuddy) {
 //buddy from user collection by id
 export async function getBuddyByIdU(userId: string) {
     try {
-        console.log(userId)
         const buddy = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -683,7 +677,6 @@ export async function createPost(post: INewPost) {
             deleteFile(uploadedFile.$id);
             throw Error;
         }
-        console.log(fileUrl);
         // convert tags into an array
         const tags = post.tags?.replace(/ /g, '').split(',') || [];
 
@@ -844,7 +837,6 @@ export async function likePost(postId: string, likeArray: string[]) {
 
 export async function getPostById(postId: string) {
     try {
-        console.log(postId)
         const post = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.officialPostsCollectionId,
@@ -904,7 +896,6 @@ export async function updateGroup(group: IUpdateGroup) {
                 imageUrl: group.imageUrl,
                 imageId: group.imageId
             }
-            console.log(group.imageUrl)
             if (hasFileToUpdate) {
                 //upload image to storage
                 deleteFileGroup(group.imageId);
@@ -1030,7 +1021,6 @@ export async function deleteStudentFromGroup(user: IGroupCollection) {
             {
                 studentId: user.userId
             })
-        console.log(Nuser)
         if (!Nuser) {
             throw Error;
         }
@@ -1050,7 +1040,6 @@ export async function AddStudentToGroup(user: IGroupCollection) {
             {
                 studentId: user.userId
             })
-        console.log(Nuser)
         if (!Nuser) {
             throw Error;
         }
@@ -1072,7 +1061,6 @@ export async function saveStudentToDB(user: {
             user.accountid,
             user
         )
-        console.log(newUser + "user added!!!!")
         return newUser;
     } catch (error) {
         console.log(error);
@@ -1089,7 +1077,6 @@ export async function addCounsellor(user: INewCounsellor) {
 
             user.username
         );
-        console.log(newAccount)
         if (!newAccount) throw Error;
 
         // Assuming avatars.getInitials(user.username) returns a URL
@@ -1128,7 +1115,6 @@ export async function addCounsellor(user: INewCounsellor) {
             imageid: uploadedFile.$id,
             contact: user.contact
         })
-        console.log(Cuser)
         const newUser = await saveUserToDB({
             accountid: user.userId,
             password: user.password,
@@ -1227,7 +1213,6 @@ export async function UpdateCounsellorC(user: IUpdateCounsellor) {
 //counsellor from user collection by id
 export async function getCounsellorByIdU(userId: string) {
     try {
-        console.log(userId)
         const counsellor = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
@@ -1242,7 +1227,6 @@ export async function getCounsellorByIdU(userId: string) {
 //counsellor from counsellor collection by id
 export async function getCounsellorByIdC(userId: string) {
     try {
-        console.log(userId)
         const counsellor = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.counsellorCollectionId,
@@ -1291,7 +1275,6 @@ export async function createPostM(post: INewPostM) {
             deleteFileM(uploadedFile.$id);
             throw Error;
         }
-        console.log(fileUrl);
         // convert tags into an array
         const tags = post.tags?.replace(/ /g, '').split(',') || [];
 
@@ -1310,7 +1293,6 @@ export async function createPostM(post: INewPostM) {
                 tags: tags
             }
         )
-        console.log("Added")
         if (!newPost) {
             await deleteFileM(uploadedFile.$id);
             throw Error;
@@ -1438,7 +1420,6 @@ export async function getPostByIdM(postId: string) {
 
 export async function AddSchedule(user: ISchedule): Promise<any> {
     try {
-        console.log(user)
         const Nuser = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.scheduleCollectionId,
@@ -1450,7 +1431,6 @@ export async function AddSchedule(user: ISchedule): Promise<any> {
                 status: user.status,
                 dates: user.dates
             })
-        console.log(Nuser)
         if (!Nuser) {
             throw Error;
         }
@@ -1463,11 +1443,22 @@ export async function AddSchedule(user: ISchedule): Promise<any> {
 
 export async function getScheduleById(userId: string) {
     try {
-        console.log(userId)
         const schedule = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.scheduleCollectionId,
             userId
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getRecentSchedule() {
+    try {
+        const schedule = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.scheduleCollectionId,
         )
         return schedule
     } catch (error) {
@@ -1504,6 +1495,7 @@ export async function updateScheduleStatus(counsellorid: string, status: string[
             {
                 status: status,
             })
+        return
     } catch (error) {
         console.log(error)
     }
@@ -1512,11 +1504,10 @@ export async function updateScheduleStatus(counsellorid: string, status: string[
 //appointments
 export async function AddAppointment(user: IAppointment): Promise<any> {
     try {
-        console.log(user)
         const Nuser = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.appointmentCollectionId,
-            user.counsellorid,
+            v4(),
             {
                 counsellorid: user.counsellorid,
                 studentid: user.studentid,
@@ -1526,12 +1517,11 @@ export async function AddAppointment(user: IAppointment): Promise<any> {
                 date: user.date,
                 timeslot: user.timeslot
             })
-        console.log(Nuser)
         if (!Nuser) {
             throw Error;
         }
         alert("Appointment booked successfully.")
-        window.location.reload()
+        return window.location.reload()
     } catch (error) {
         return error
     }
@@ -1567,10 +1557,30 @@ export async function getUser() {
     return counsellor
 }
 
+export async function getStudent() {
+    const counsellor = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.studentCollectionId,
+    )
+    if (!counsellor) throw Error
+    return counsellor
+}
+
+export async function getStudentById(userId: string) {
+    try {
+        const schedule = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.studentCollectionId,
+            userId
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export async function getAppointmentById(userId: string) {
     try {
-        console.log(userId)
         const schedule = await databases.getDocument(
             appwriteConfig.databaseId,
             appwriteConfig.appointmentCollectionId,
@@ -1580,4 +1590,91 @@ export async function getAppointmentById(userId: string) {
     } catch (error) {
         console.log(error)
     }
+}
+
+export async function deleteAppointment(ID: string) {
+    try {
+        const schedule = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.appointmentCollectionId,
+            ID
+        )
+        alert("Appointment cancelled successfully.")
+        return
+    } catch (error) {
+
+    }
+}
+
+//summary 
+export async function AddSummary(user: ISummary) {
+    try {
+        const summary = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.summaryCollectionId,
+            user.idd,
+            {
+                counsellorid: user.counsellorid,
+                studentcode: user.studentcode,
+                studentid: user.studentid,
+                regno: user.regno
+            })
+        if (!summary) {
+            throw Error;
+        }
+        return summary
+    } catch (error) {
+        return error
+    }
+}
+
+export async function updateSummary(user: ISummary) {
+    try {
+        const updateSummary = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.summaryCollectionId,
+            user.idd,
+            {
+                summary: user.summary
+            })
+        alert("Summary updated successfully.")
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export async function getSummary(regno: string) {
+    const summary = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.summaryCollectionId,
+        [
+            Query.equal('regno', [regno]),
+        ]
+    )
+    if (!summary) throw Error
+    return summary
+}
+
+export async function getSummaryById(idd: string) {
+    try {
+        const schedule = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.summaryCollectionId,
+            idd
+        )
+        return schedule
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getRecentSummary() {
+    const summary = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.summaryCollectionId,
+    )
+    if (!summary) throw Error
+    return summary
 }

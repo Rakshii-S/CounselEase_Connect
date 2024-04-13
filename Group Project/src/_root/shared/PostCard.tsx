@@ -16,7 +16,6 @@ function PostCard({post}:PostCardProps)
     const {user} = useUserContext();
     const {data: currentUser} = useGetCurrentUserCollection(post.creator.$id, post.creator.role);
     if(!post.creator) return Error;
-    console.log(user)
     return (
     <div className="post-card">
         <div className="flex-between">
@@ -27,7 +26,7 @@ function PostCard({post}:PostCardProps)
                     className="rounded-full w-12 h-12"/>
                 </div>
                 <div className="flex flex-col">
-                    <p className="base-medium lg:body-bold text-light-1">
+                    <p className="base-medium text-sm lg:body-bold text-light-1">
                         {currentUser?.username}
                     </p>
                     <div className="flex-center gap-2 text-light-3">
@@ -51,7 +50,7 @@ function PostCard({post}:PostCardProps)
             )}
         </div>
         <Link to={`/post/${post.$id}`}>
-            <div className="small-medium lg:base-medium py-5">
+            <div className="small-medium lg:base-medium py-4">
                 <p>{post.caption}</p>
                 <ul className="flex gap-1 mt-2">
                     {post.tags.map((tag:string)=> (

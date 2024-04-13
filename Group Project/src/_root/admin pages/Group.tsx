@@ -15,12 +15,12 @@ function Group() {
   return (
     <>
     <div className='common-container'>
-    <div className='bg-gray-900 w-full h-28 text-2xl rounded-2xl p-8 pl-10 pr-10 flex flex-row justify-between'>
-      <p>Create a group</p>
+    <div className='flex flex-row justify-between h3-bold md:h3-bold text-left w-full'>
+        <p>Create a new group</p>
       <Link to="/create-group">
         <img
         src="/assets/plus.png"
-        width={60}
+        width={50}
         className='mt-[-15px]'
         />
       </Link>
@@ -29,17 +29,16 @@ function Group() {
               <Loader/>
             ):(<ul className="flex flex-1 flex-col w-full ml-[-50px]">
                   {groups?.documents.map((group: Models.Document) => (
-                    <div className='bg-gray-900 m-5 w-full h-44 rounded-3xl flex flex-row justify-between'>
-                    <div className='p-8 flex flex-row'>
+                    <div className='bg-gray-900 m-5 w-full h-32 rounded-3xl flex flex-row justify-between'>
+                    <div className='p-4 flex flex-row'>
                         <img
                             src={group.imageUrl || `https://i.pinimg.com/474x/60/b1/e4/60b1e4f0d521cfd16e4de3e59a263470.jpg`}
                             alt="group"
-                            width={120}
-                            className='rounded-full'
+                            className='w-24 h-24 ml-2 rounded-full'
                         />
-                        <p className='p-10'>{group.name}</p>
+                        <p className='p-8 text-base'>{group.name}</p>
                     </div>
-                    <div className='mt-4 p-10'>
+                    <div className='p-4 mt-4'>
                         <Button onClick={()=>navigate(`/view-group/${group.$id}`)} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-20 h-14 ">View</Button>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ export enum QUERY_KEYS {
     GET_CURRENT_USER = "getCurrentUser",
     GET_USERS = "getUsers",
     GET_USER = "getUser",
+    GET_STUDENT = "getStudent",
     GET_USER_BY_ID = "getUserById",
 
     // POST KEYS
@@ -38,5 +39,7 @@ export enum QUERY_KEYS {
 
     //APPOINTMENT
     GET_RECENT_APPOINTMENT = "getRecentAppointment",
-    GET_RECENT_STUDENTS = "getRecentStudents"
+    GET_RECENT_STUDENTS = "getRecentStudents",
+    GET_RECENT_SCHEDULE = "getRecentSchedule",
+    GET_RECENT_SUMMARY = "getRecentSummary"
 }

@@ -18,8 +18,7 @@ function BottomBar() {
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={30}
-                            height={20}
+                            width={25}
                             className={`$ {isActive && 'invert-white'} invert-white`}/>
                             <p className='tiny-medium text-light-2'>{link.label}</p>
                         </NavLink>
@@ -34,8 +33,7 @@ function BottomBar() {
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={30}
-                            height={20}
+                            width={25}
                             className={`$ {isActive && 'invert-white'} invert-white`}/>
                             <p className='tiny-medium text-light-2'>{link.label}</p>
                         </NavLink>
@@ -50,8 +48,7 @@ function BottomBar() {
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={30}
-                            height={20}
+                            width={25}
                             className={`$ {isActive && 'invert-white'} invert-white`}/>
                             <p className='tiny-medium text-light-2'>{link.label}</p>
                         </NavLink>
@@ -66,8 +63,7 @@ function BottomBar() {
                             <img 
                             src={link.imgURL}
                             alt={link.label}
-                            width={30}
-                            height={20}
+                            width={25}
                             className={`$ {isActive && 'invert-white'} invert-white`}/>
                             <p className='tiny-medium text-light-2'>{link.label}</p>
                         </NavLink>

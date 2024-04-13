@@ -28,6 +28,7 @@ function MGroupView() {
           groupId: id,
           userId:student
       })
+      alert(`You are now the member of group ${group?.name}!!`)
         if(!value)
         alert("there was an error in adding values.")
     }  
@@ -46,6 +47,7 @@ function MGroupView() {
                   userId: student
               });
           }
+          alert(`You are no longer the member of the group ${group?.name}!!`)
           navigate(`/mgroups`)
         }
     }
@@ -64,15 +66,18 @@ function MGroupView() {
                             <div className="flex justify-between">
                                 <Button 
                                     onClick={addStudentToGroup}
-                                    className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                    className="m-10 h-16 w-40 p-2 rounded-xl bg-sky-800 hover:bg-slate-800">
                                       {addUser?(
-                                        <Loader/>
+                                        <div className="m-4">
+                                          <Loader/>
+                                        </div>
+        
                                       ):(
                                         <p>Join the group</p>
                                       )}
                                 </Button>
                                 <Button onClick={()=>navigate(`/mgroups`)}
-                                className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                className="m-10 h-14 w-24 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
                                   Go back
                                 </Button>
                             </div>
@@ -83,15 +88,17 @@ function MGroupView() {
                             <div className="flex justify-between">
                                 <Button 
                                     onClick={DeleteStudentFromGroup}
-                                    className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                    className="m-10 h-16 w-40 p-2 rounded-xl bg-sky-800 hover:bg-slate-800">
                                     {deleteUser?(
+                                        <div className="m-4">
                                         <Loader/>
+                                      </div>
                                       ):(
                                         <p>Leave the group</p>
                                       )}
                                 </Button>
                                 <Button onClick={()=>navigate(`/mgroups`)}
-                                className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                className="m-10 h-14 w-28 p-2 rounded-xl bg-sky-800 hover:bg-slate-800">
                                   Go back
                                 </Button>
                                 </div>
@@ -100,7 +107,7 @@ function MGroupView() {
                         {user.role == "counsellor" && (
                           <>
                                 <Button onClick={()=>navigate(`/mgroups`)}
-                                className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                className="m-10 h-14 w-24 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
                                   Go back
                                 </Button>
                           </>
@@ -108,7 +115,7 @@ function MGroupView() {
                         {user.role == "buddy" && (
                           <>
                                 <Button onClick={()=>navigate(`/mgroups`)}
-                                className="m-10 h-20 w-32 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
+                                className="m-10 h-14 w-24 p-4 rounded-xl bg-sky-800 hover:bg-slate-800">
                                   Go back
                                 </Button>
                           </>
@@ -117,13 +124,13 @@ function MGroupView() {
                 )}
                 
                 <div className="flex flex-col justify-center">
-                    <div className="mb-8 h-10 text-center text-2xl ">
+                    <div className="mb-8 h-10 text-center text-xl ">
                         {group?.name}
                     </div>
                     <center>
                     <img
                       src={group?.imageUrl || `https://img.freepik.com/premium-photo/minimal-japanese-kawaii-dog-boy-chibi-anime-vector-art-sticker-with-clean-bold-line-cute-simple_655090-47243.jpg`}
-                      className="rounded-full w-56 h-56"
+                      className="rounded-full w-40 h-40"
                       alt="group profile"
                       />
                     </center>
@@ -153,7 +160,7 @@ function MGroupView() {
               {group?.studentId.includes(user.accountid) || group?.counsellorId.includes(user.accountid) || group?.buddyId.includes(user.accountid)?
               (
                 <div className="flex justify-end">
-                <Button className=" bg-sky-800 hover:bg-slate-800 m-10 p-4 pb-10 rounded-xl" onClick={()=>navigate(`/mcreate-post/${group?.$id}`)}>
+                <Button className=" bg-sky-800 h-14 hover:bg-slate-800 m-10 p-4 pb-10 rounded-xl" onClick={()=>navigate(`/mcreate-post/${group?.$id}`)}>
                   Create Post
                 </Button>
             </div>
