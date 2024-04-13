@@ -1,6 +1,6 @@
 import './index.css'
 import AddCounsellors from './_root/admin pages/AddCounsellors'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 //private
 import RootLayout from './_root/RootLayout'
@@ -59,11 +59,10 @@ function App() {
 
   return (
     <main className='flex h-screen'>
-      <BrowserRouter basename='/login'>
       <Toast/>
         <Routes>
           {/*public routes*/}
-          <Route  element={<AuthLayout/>}>
+          <Route element={<AuthLayout/>}>
             <Route path='/login' element={<LoginForm/>}/>
             <Route path='/register' element={<RegisterForm/>}/>
           </Route>
@@ -129,7 +128,6 @@ function App() {
               </Route>
           </Route>
         </Routes>
-        </BrowserRouter>
     </main>
   )
 }
