@@ -104,7 +104,7 @@ export async function saveUserToStudentDB(user: {
 // delete account, create and update the auth account
 export async function updateUserAccount(user: IUpdateUser) {
     try {
-        const res = await fetch(`http://localhost:3000/deleteUser/${user.userid}`);
+        const res = await fetch(`https://counselease-connect-1.onrender.com/${user.userid}`);
         await res.json();
         const newAccount = await account.create(
             user.userid,
@@ -188,7 +188,7 @@ export async function UpdatePassword(user: IUpdateUser) {
 //delete all the users
 export async function DeleteUser(userid: string, userrole: string, imageid: string) {
     if (confirm("Do you want to delete the account? ")) {
-        const res = await fetch(`http://localhost:3000/deleteUser/${userid}`);
+        const res = await fetch(`https://counselease-connect-1.onrender.com/${userid}`);
         await res.json();
         //delete image from the storage
         deleteProfile(imageid);
@@ -1156,7 +1156,7 @@ export async function saveCounsellorToDB(user: {
 export async function UpdateCounsellorU(user: IUpdateCounsellor) {
     try {
 
-        const res = await fetch(`http://localhost:3000/deleteUser/${user.$id}`);
+        const res = await fetch(`https://counselease-connect-1.onrender.com/deleteUser/${user.$id}`);
         await res.json();
         const newAccount = await account.create(
             user.$id,
