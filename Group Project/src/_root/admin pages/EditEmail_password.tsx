@@ -1,11 +1,7 @@
-import { useToast } from "../../../@/components/ui/use-toast";
 import { useGetCurrentUserCollection,useUpdateUserEmail, useUpdateUserPassword } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 
 function EditEmail_password() {
-    //hooks and others
-   const {toast} = useToast();
-
     //tanstack query, appwrite and context 
    const {user} = useUserContext();
    const {data: currentUser} = useGetCurrentUserCollection(user.accountid, user.role);

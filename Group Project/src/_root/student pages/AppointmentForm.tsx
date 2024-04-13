@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, FormControl, FormField, FormItem, FormLabel} from "../../../@/components/ui/form";
 import { Button } from "../../../@/components/ui/button";
 import Loader from "../shared/Loader";
-import {  useAddAppointment, useGetCounsellorByIdC, useGetCounsellorByIdU,useGetCurrentUserCollection,useGetRecentSchedule,useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
+import {  useAddAppointment, useGetCounsellorByIdC, useGetCounsellorByIdU,useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
 import { useForm } from "react-hook-form";
 import { Select, SelectContent,  SelectItem,SelectTrigger, SelectValue } from "../../../@/components/ui/select"
 import { useState } from "react";
@@ -181,7 +181,7 @@ export const AppointmentToDB = z.object({
         await updateScheduleStatus(userU?.accountid,Status)
 
         //add appointment details
-        const appoin = await AddAppointment({
+        await AddAppointment({
             ...values,
             counsellorid: userU?.accountid,
             studentid: user.accountid,

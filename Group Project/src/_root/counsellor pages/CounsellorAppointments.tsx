@@ -1,9 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetCounsellorByIdC, useGetCounsellorByIdU, useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentCounsellorC, useGetRecentStudents, useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
+import { useNavigate } from "react-router-dom";
+import { useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentStudents, useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
 import Loader from "../shared/Loader";
 import { Models } from "appwrite";
 import { useUserContext } from "../../../context/AuthContext";
-import { useState } from "react";
 import { deleteAppointment, updateScheduleStatus } from "../../../@/lib/appwrite/api";
 import { Button } from "../../../@/components/ui/button";
 

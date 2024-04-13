@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,12 +13,11 @@ function ViewSummary() {
   const [value, setValue] = useState('');
   let time = new Date();
   time.setDate(time.getDate() + 0);
-  let datee= time.toISOString().split('T')[0]
   const {data: summary} = useGetSummarybyId(id || '');
   const {mutateAsync: updateSummary, isPending: isLoadingUpdate} = useUpdateSummary();
   async function uploadSummary ()
   {
-    const valuee= await updateSummary({
+    await updateSummary({
          idd: idSummary,
          counsellorid: '',
          studentid: '',

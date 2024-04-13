@@ -1,10 +1,7 @@
 import { Button } from '../../../@/components/ui/button'
-import { useGetAppointmentbyId, useGetCounsellorByIdC, useGetCounsellorByIdU, useGetRecentAppointments, useGetRecentSchedule } from '../../../@/lib/react_query/queryNmutation';
+import {  useGetCounsellorByIdC, useGetCounsellorByIdU, useGetRecentAppointments } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
-import { Link, useNavigate, useParams} from "react-router-dom";
-import { GoArrowLeft } from "react-icons/go";
-import { AiOutlineCalendar } from "react-icons/ai";
-import Tooltip from '@mui/material/Tooltip';
+import { useNavigate, useParams} from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";

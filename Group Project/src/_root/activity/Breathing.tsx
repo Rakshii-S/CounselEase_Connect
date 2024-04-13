@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../activity/Breathing.css';
 
-interface TimerProps {
-  breathing: boolean;
-}
 
 const Breathing: React.FC = () => {
   const [breathing, setBreathing] = useState<boolean>(false);

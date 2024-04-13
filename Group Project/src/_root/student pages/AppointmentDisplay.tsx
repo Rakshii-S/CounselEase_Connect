@@ -1,13 +1,11 @@
 import { Button } from '../../../@/components/ui/button'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useGetRecentCounsellorC, useGetRecentCounsellorU } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 import { Models } from 'appwrite';
-import { useUserContext } from '../../../context/AuthContext';
 
 function AppointmentDisplay() {
   //hooks and others
-  const {user} = useUserContext();
   const navigate = useNavigate();
 
   //tanstack query and appwrite 

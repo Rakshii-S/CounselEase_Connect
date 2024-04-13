@@ -3,13 +3,8 @@ import { Button } from '../../../@/components/ui/button';
 import { useGetCurrentUserCollection } from '../../../@/lib/react_query/queryNmutation';
 import { multiFormatDateString } from '../../../@/lib/utils';
 import Loader from '../shared/Loader';
-import { Models } from 'appwrite';
 import { useUserContext } from '../../../context/AuthContext';
 
-type props=
-{
-    user: Models.Document;
-}
 function Profile() 
 {
     //hooks and others

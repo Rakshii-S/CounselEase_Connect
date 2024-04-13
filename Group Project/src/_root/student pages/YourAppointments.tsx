@@ -1,9 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetAppointmentbyId, useGetCounsellorByIdC, useGetCounsellorByIdU, useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentCounsellorC, useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
+import { useParams } from "react-router-dom";
+import { useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentCounsellorC } from "../../../@/lib/react_query/queryNmutation";
 import Loader from "../shared/Loader";
 import { Models } from "appwrite";
 import { useUserContext } from "../../../context/AuthContext";
-import { useState } from "react";
 import { Button } from "../../../@/components/ui/button";
 import { deleteAppointment, getScheduleById, updateScheduleStatus } from "../../../@/lib/appwrite/api";
 
@@ -17,7 +16,6 @@ function YourAppointments() {
     let booked = 0
     let finalBooked = 0
     let noAppointments = 0
-    const navigate = useNavigate()
     const {user} = useUserContext();
     const {id} = useParams();
     const {data:appointments, isPending : isLoading} = useGetRecentAppointments();
@@ -94,7 +92,7 @@ function YourAppointments() {
                     <div className="text-lg p-6 bg-gray-900 w-full rounded-xl text-center">
                             Appointments
                         </div>
-                    {(appointments?.documents || []).map((appointment: Models.Document, index: number) => (
+                    {(appointments?.documents || []).map((appointment: Models.Document) => (
                     <div key={appointment.id}>
                     <div className="flex flex-row flex-1 items-center py-10 px-5 md:px-8 lg:p-14 custom-scrollbar">
                     {id === appointment.studentid ? (
@@ -122,7 +120,7 @@ function YourAppointments() {
                                 <p className="ml-2 mt-4 text-sm">{currentUser?.username}</p>
                             </div>
                         <div>
-                            {usersC?.documents.map((counsellor:Models.Document, index:Number) =>
+                            {usersC?.documents.map((counsellor:Models.Document) =>
                             <>
                                 {counsellor.accountid == appointment.counsellorid ? 
                                 (

@@ -47,7 +47,7 @@ export async function createUserAccount(user: INewUser) {
             console.error('Error:', error);
         }
 
-        const userAdmin = await saveUserToStudentDB({
+        await saveUserToStudentDB({
             accountid: user.userid,
             bio: "",
             username: user.username,
@@ -520,7 +520,7 @@ export async function addBuddy(user: INewBuddy) {
             console.error('Error:', error);
         }
 
-        const Cuser = await saveBuddyToDB({
+        await saveBuddyToDB({
             accountid: user.userId,
             bio: user.bio,
             username: user.username,
@@ -1106,7 +1106,7 @@ export async function addCounsellor(user: INewCounsellor) {
             console.error('Error:', error);
         }
 
-        const Cuser = await saveCounsellorToDB({
+        await saveCounsellorToDB({
             accountid: user.userId,
             block: user.block,
             bio: user.bio,
@@ -1468,7 +1468,7 @@ export async function getRecentSchedule() {
 
 export async function updateSchedule(user: ISchedule) {
     try {
-        const updateSchedule = await databases.updateDocument(
+        await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.scheduleCollectionId,
             user.counsellorid,
@@ -1488,7 +1488,7 @@ export async function updateSchedule(user: ISchedule) {
 
 export async function updateScheduleStatus(counsellorid: string, status: string[]) {
     try {
-        const updateSchedule = await databases.updateDocument(
+        await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.scheduleCollectionId,
             counsellorid,
@@ -1594,7 +1594,7 @@ export async function getAppointmentById(userId: string) {
 
 export async function deleteAppointment(ID: string) {
     try {
-        const schedule = await databases.deleteDocument(
+        await databases.deleteDocument(
             appwriteConfig.databaseId,
             appwriteConfig.appointmentCollectionId,
             ID
@@ -1630,7 +1630,7 @@ export async function AddSummary(user: ISummary) {
 
 export async function updateSummary(user: ISummary) {
     try {
-        const updateSummary = await databases.updateDocument(
+        await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.summaryCollectionId,
             user.idd,

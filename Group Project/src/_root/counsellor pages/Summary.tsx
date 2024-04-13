@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
+import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../@/components/ui/button';
 import { useAddSummary, useGetRecentSummary, useGetStudent, useGetUser } from '../../../@/lib/react_query/queryNmutation';
 import { useUserContext } from '../../../context/AuthContext';
-import { getSummary } from '../../../@/lib/appwrite/api';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../../../@/components/ui/form';
 import { Input } from '../../../@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import Loader from '../shared/Loader';
@@ -26,7 +24,6 @@ export const AddSummarytoDB = z.object({
 function Summary() {
   let count = 0;
   const [ card, setCard] = useState(false)
-  const [code, setCode] = useState()
   const {user} = useUserContext()
   const {mutateAsync: AddSummary, isPending: summaryLoading} = useAddSummary();
   const {data:summary, isPending : isLoading} = useGetRecentSummary();
@@ -48,7 +45,7 @@ function Summary() {
   async function onSubmit(values: z.infer<typeof AddSummarytoDB>) 
   {
     let summaryId = v4();
-      const summary = await AddSummary(
+      await AddSummary(
         {
           ...values,
           counsellorid: user.accountid,

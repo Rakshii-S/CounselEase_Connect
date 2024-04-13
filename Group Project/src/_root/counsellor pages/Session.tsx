@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import { Button } from "../../../@/components/ui/button"
-import { useUserContext } from "../../../context/AuthContext"
 
 function Session() {
     const navigate = useNavigate()
-    const {user} = useUserContext()
   return (
     <div className="common-container">
         <Button onClick={()=>navigate('/summary')} className="flex flex-row justify-between bg-gray-900 w-full h-56 text-xl rounded-2xl hover:bg-gray-800">

@@ -1,11 +1,8 @@
-import { Link, useNavigate} from "react-router-dom";
-import { GoArrowLeft } from "react-icons/go";
-import { AiOutlineCalendar } from "react-icons/ai";
-import Tooltip from '@mui/material/Tooltip';
+import { useNavigate} from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import { useAddSchedule, useGetRecentSchedule, useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
+import { useAddSchedule, useGetSchedulebyId, useUpdateSchedule } from "../../../@/lib/react_query/queryNmutation";
 import { useUserContext } from "../../../context/AuthContext";
 import Loader from "../shared/Loader";
 
