@@ -33,6 +33,7 @@ function ViewAppointment() {
     '12:40-01:25', '01:30-02:20', '02:25-03:15', '03:20-04:10'
 ];
   
+    //desktop view
   const [cells, setCells] = useState(() =>
     daysOfWeek.map(day =>
         timeSlots.map(time => ({ day, time, option: 'Available', color: 'lightblue', editing: false }))
@@ -67,6 +68,43 @@ useEffect(() => {
     {
         viewSchedule=true
     }
+
+    //mobile view
+    const [cells1, setCells1] = useState(() =>
+        daysOfWeek.map(day =>
+            timeSlots.map(time => ({ day, time, option: 'Available', color: 'lightblue', editing: false }))
+        )
+    );
+    
+    // Retrieve the schedule data from the database
+    useEffect(() => {
+        const dbCells2 = cells1.map((row, rowIndex) =>
+            row.map((cell, colIndex) => {
+                const index = rowIndex * row.length + colIndex;
+                const option = counsellorID?.status[index % counsellorID?.status.length];
+    
+                return {
+                    ...cell,
+                    option: option === 'Available' ? 'A' : (option === 'null'? 'N' : (option === 'Booked' ? 'B' : option === 'Unavailable' ? 'UN': option)),
+                    color: option === 'Available' ? 'lightblue' : (option === 'null' ? 'grey' : (option === 'Booked' ? 'yellow' : 'lightcoral')),
+                    editing: false
+                  };
+                  
+            })
+        );
+    
+        // Check if dbCells is different from the current cells state
+        const dbCellsString = JSON.stringify(dbCells2);
+        const cellsString = JSON.stringify(cells1);
+        if (dbCellsString !== cellsString && counsellorID?.counsellorid == userC?.accountid) {
+            setCells1(dbCells2);
+        }
+    }, [counsellorID, daysOfWeek, timeSlots]); // Removed cells from dependencies
+    
+        if(counsellorID?.counsellorid != userC?.accountid)
+        {
+            viewSchedule=true
+        }
   return (
     <div className="common-container">
         {isUserU && isUserC?(
@@ -98,21 +136,21 @@ useEffect(() => {
 
             {viewSchedule == true?(
                 <>
-                <div className='bg-gray-900 w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
+                <div className='w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
                         <p className="schedule-heading">No schedules updated yet.</p>
                 </div>
                 <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
                 </>
             ): Cid == true ?(
                 <>
-                <div className='bg-gray-900 w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
+                <div className='w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
                         <p className="schedule-heading">You have already booked an appointment.</p>
                 </div>
                 <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
                 </>  
             ):(
                 <>
-                <div>
+                <div className='hidden sm:hidden md:hidden lg:block xl:block'>
                 <div >
                     <Table>
                         <TableHead>
@@ -125,6 +163,38 @@ useEffect(() => {
                         </TableHead>
                         <TableBody>
                             {cells.map(row => (
+                                <TableRow key={row[0].day}>
+                                    <TableCell style={{ color: 'white' }}>{row[0].day}</TableCell>
+                                    {row.map(cell => (
+                                        <TableCell key={`${cell.day}-${cell.time}`} style={{ backgroundColor: cell.color }}>  
+                                                {cell.option}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+            <div className='lg:hidden visible text-center'>
+                <div>
+                    <p className="schedule-heading text-base">Available: A</p>
+                    <p className="schedule-heading text-base">Unavailable: UA</p>
+                    <p className="schedule-heading text-base">Booking: B</p>
+                    <p className="schedule-heading text-base mb-10">Null: N</p>
+                </div>
+                <div >
+                    <Table className='ml-56'>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ color: 'white' }}>Day</TableCell>
+                                {timeSlots.map(slot => (
+                                    <TableCell key={slot} style={{ color: 'white' }}>{slot}</TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {cells1.map(row => (
                                 <TableRow key={row[0].day}>
                                     <TableCell style={{ color: 'white' }}>{row[0].day}</TableCell>
                                     {row.map(cell => (

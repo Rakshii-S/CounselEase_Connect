@@ -99,25 +99,18 @@ function YourAppointments() {
                         <>
                             <p className="m-2 mt-4 text-sm">{noAppointments = noAppointments+1}{")"} </p>
                             <div className="flex flex-row justify-around">
-                                <img
-                                    src="/assets/circular-clock.png"
-                                    className="m-2 ml-6 invert-white w-10 h-10"
-                                />
+                                    <img
+                                        src="/assets/circular-clock.png"
+                                        className="m-4 mt-6 ml-6 invert-white w-6 h-6"
+                                    />
                                 <p className="ml-2 mt-4 text-sm">{appointment.timeslot}</p>
                             </div>
                             <div className="flex flex-row justify-around">
                                 <img
                                     src="/assets/calendar.png"
-                                    className="m-2 ml-6 invert-white w-10 h-10"
+                                    className="m-4 mt-6 ml-10 invert-white w-6 h-6"
                                 />
                                 <p className="ml-2 mt-4 text-sm">{appointment.date}</p>
-                            </div>
-                            <div className="flex flex-row justify-around">
-                                <img
-                                    src={currentUser?.imageUrl || "/assets/user.png"}
-                                    className="m-2 ml-6 w-10 h-10 rounded-full"
-                                />
-                                <p className="ml-2 mt-4 text-sm">{currentUser?.username}</p>
                             </div>
                         <div>
                             {usersC?.documents.map((counsellor:Models.Document) =>
@@ -129,11 +122,11 @@ function YourAppointments() {
                                     <div className="flex flex-row">
                                                 <img
                                                     src={counsellor.imageUrl || "/assets/user.png"}
-                                                    className="m-6 ml-6 w-10 h-10 rounded-full" />
+                                                    className="m-4 mt-10 ml-10 w-8 h-8 rounded-full" />
                                                 <p className="mt-10 mr-2 text-sm">{counsellor.username}</p>
                                     </div>
                                     <Button onClick={() => {CancelAppointment(appointment.timeslot,appointment.date,counsellor.$id)}}
-                                        className="bg-sky-800 text-sm m-6 p-2 mb-10 rounded-xl w-16 h-10">
+                                        className="bg-sky-800 text-sm m-10 p-2 mb-10 rounded-xl w-16 h-10">
                                             Cancel
                                     </Button>
                                     </div>
