@@ -7,7 +7,7 @@ import AuthProvider from '../context/AuthContext';
 import QueryProvider from '../@/lib/react_query/QueryProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+  <BrowserRouter basename='/CounselEase_Connect'>
         <QueryProvider>
             <AuthProvider>
                 <ToastProvider>
