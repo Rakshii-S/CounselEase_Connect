@@ -90,7 +90,7 @@ function Schedule() {
                         }
                     }
             }
-            const val = await AddSchedule({
+            await AddSchedule({
                 counsellorid: user.accountid,
                 days: daysOfWeek,
                 timeslot: timeSlots,
@@ -147,7 +147,7 @@ function Schedule() {
                         }
                     }
             }
-            const val = await updateSchedule({
+             await updateSchedule({
                 counsellorid: user.accountid,
                 days: days,
                 timeslot: timeSlots,

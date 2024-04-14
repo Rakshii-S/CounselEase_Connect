@@ -54,7 +54,7 @@ function ViewCounsellor() {
               </div>
               {user.role == "admin"?(
                   <div className='flex flex-row text-xl'>
-                  <p className='pt-5 pr-5 text-lg'>Password</p>
+                  <p className='pt-5 pr-5 text-lg'>Password: </p>
                   <p className='pl-1 pt-5 text-lg'>{userU?.password}</p>
                 </div>
               ):(

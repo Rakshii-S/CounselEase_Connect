@@ -1,6 +1,6 @@
 import './index.css'
 import AddCounsellors from './_root/admin pages/AddCounsellors'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom';
 
 //private
 import RootLayout from './_root/RootLayout'
@@ -24,7 +24,6 @@ import LoginForm from './_auth/forms/LoginForm'
 import RegisterForm from './_auth/forms/RegisterForm'
 import EditPost from './_root/admin pages/EditPost'
 import PostDetails from './_root/admin pages/PostDetails'
-import { Toast } from '../@/components/ui/toast'
 import Profile from './_root/admin pages/Profile'
 import EditProfile from './_root/admin pages/EditProfile'
 
@@ -59,7 +58,6 @@ function App() {
 
   return (
     <main className='flex h-screen'>
-      <Toast/>
         <Routes>
           {/*public routes*/}
           <Route element={<AuthLayout/>}>

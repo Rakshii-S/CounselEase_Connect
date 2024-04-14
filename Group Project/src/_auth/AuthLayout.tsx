@@ -13,7 +13,7 @@ function AuthLayout() {
           <Toaster/>
         </section>
         <img 
-        src="/assets/banner.jpg"
+        src="/assets/banner1.jpg"
         alt="logo"
         className='hidden xl:block h-full w-1/2 object-cover justify-end'
         />

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 import { useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentStudents, useGetSchedulebyId } from "../../../@/lib/react_query/queryNmutation";
 import Loader from "../shared/Loader";
 import { Models } from "appwrite";
@@ -17,7 +17,6 @@ function CounsellorAppointments() {
     let finalBooked = 0
     let noAppointments = 0
     const {user} = useUserContext();
-    const navigate = useNavigate()
     const {data: currentUser} = useGetCurrentUserCollection(user.accountid || '', user.role);
     const {data: counsellorID} = useGetSchedulebyId(user.accountid || '');
     const {data:students} = useGetRecentStudents();
@@ -65,7 +64,7 @@ function CounsellorAppointments() {
                   Status.push(counsellorID?.status[i])
             }
         //update schedule 
-        const someVal = await updateScheduleStatus(user.accountid,Status)
+        await updateScheduleStatus(user.accountid,Status)
 
         //delete appointment document from appointmenet collection
         for(let i =0 ;i< Number(appointments?.documents.length); i++)
@@ -94,7 +93,7 @@ function CounsellorAppointments() {
                     <div className='h3-bold md:h3-bold text-left w-full'>
                     <p>Appointments</p>
                     </div>
-                        {(appointments?.documents || []).map((appointment: Models.Document, index: number) => (
+                        {(appointments?.documents || []).map((appointment: Models.Document) => (
                         <div key={appointment.id}>
                         <div className="flex flex-row flex-1 justify-around bg-gray-900 w-fit h-16 text-xl rounded-lg pt-2 m-4">
                         {user.accountid === appointment.counsellorid ? (
@@ -122,7 +121,7 @@ function CounsellorAppointments() {
                                     <p className="ml-2 mt-4 text-sm">{currentUser?.username}</p>
                                 </div>
                             <div>
-                                {students?.documents.map((student:Models.Document, index:Number) =>
+                                {students?.documents.map((student:Models.Document) =>
                                 <>
                                     {student.accountid == appointment.studentid ? 
                                     (
