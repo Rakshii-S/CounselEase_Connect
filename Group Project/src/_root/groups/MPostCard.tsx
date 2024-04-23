@@ -4,6 +4,8 @@ import { useUserContext } from "../../../context/AuthContext";
 import { multiFormatDateString } from "../../../@/lib/utils";
 import { useGetCurrentUserCollection, useGetGroupById } from "../../../@/lib/react_query/queryNmutation";
 import MPostLikes from "./MPostLikes";
+import { Button } from "../../../@/components/ui/button";
+import { DeletePost } from "../../../@/lib/appwrite/api";
 
 //user defined type
 type PostCardProps = {
@@ -20,6 +22,9 @@ function MPostCard({post}:PostCardProps)
     const {data: group} = useGetGroupById(id || '');
     const {data: currentUser} = useGetCurrentUserCollection(post.creator.$id, post.creator.role);
     if(!post.creator) return Error;
+    async function deletePost(postid:string) {
+        await DeletePost(postid)
+    }
     return (
         <>
     {post.groupid == group?.$id ? (
@@ -43,15 +48,25 @@ function MPostCard({post}:PostCardProps)
                 </div>
             </div>
             {user.role == "admin" || user.accountid == post.creator.$id?(
-                <div>
+                <div className="flex flex-row">
                     <Link  to={`/Medit-post/${post.$id}`} className={`${user.$id === post.creator.$id && "hidden"}`}>
                         <img 
                         src="/assets/edit.png"
                         alt="edit"
                         width={20}
                         height={20}
+                        className="m-4"
                         />
                     </Link>
+                    <Button onClick={()=>deletePost(`${post.$id}`)} className={`${user.$id === post.creator.$id && "hidden"}`}>
+                        <img 
+                        src="/assets/trash.png"
+                        alt="edit"
+                        width={23}
+                        height={23}
+                        className="m-4"
+                        />
+                    </Button>
                 </div>
             ):(
                 <></>

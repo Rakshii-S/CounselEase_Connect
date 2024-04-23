@@ -3,10 +3,13 @@ import { useGetCurrentUserCollection, useGetRecentAppointments, useGetRecentStud
 import Loader from "../shared/Loader";
 import { Models } from "appwrite";
 import { useUserContext } from "../../../context/AuthContext";
-import { deleteAppointment, updateScheduleStatus } from "../../../@/lib/appwrite/api";
+import { completeAppointment, deleteAppointment, updateScheduleStatus } from "../../../@/lib/appwrite/api";
 import { Button } from "../../../@/components/ui/button";
+import { useState } from "react";
 
 function CounsellorAppointments() {
+    const [isDelete, setIsDelete] = useState(false);
+    const [isComplete, setIsComplete] = useState(false);
     let Did: any
     let timeSlots = [
         '09:00-09:50', '09:55-10:45', '10:50-11:40', '11:45-12:35',
@@ -74,7 +77,10 @@ function CounsellorAppointments() {
                     Did = appointments?.documents[i].$id 
                 }
             }
-        deleteAppointment(Did)
+        if(isDelete == true)
+            deleteAppointment(Did)
+        else
+            completeAppointment(Did)
         window.location.reload
     } 
 
@@ -95,31 +101,14 @@ function CounsellorAppointments() {
                     </div>
                         {(appointments?.documents || []).map((appointment: Models.Document) => (
                         <div key={appointment.id}>
-                        <div className="flex flex-row flex-1 justify-around bg-gray-900 w-fit h-16 text-xl rounded-lg pt-2 m-4">
+                        <div className="flex flex-row flex-1 justify-around bg-gray-900 w-full h-16 text-xl rounded-lg pt-2 m-4">
                         {user.accountid === appointment.counsellorid ? (
                             <>
-                            <p className="m-2 mt-4 text-sm">{noAppointments = noAppointments+1}{")"} </p>
-                                <div className="flex flex-row justify-around">
-                                    <img
-                                        src="/assets/circular-clock.png"
-                                        className="m-2 ml-6 invert-white w-10 h-10"
-                                    />
-                                    <p className="ml-2 mt-4 text-sm">{appointment.timeslot}</p>
-                                </div>
-                                <div className="flex flex-row justify-around">
-                                    <img
-                                        src="/assets/calendar.png"
-                                        className="m-2 ml-6 invert-white w-10 h-10"
-                                    />
-                                    <p className="ml-2 mt-4 text-sm">{appointment.date}</p>
-                                </div>
-                                <div className="flex flex-row justify-around">
-                                    <img
-                                        src={currentUser?.imageUrl || "/assets/user.png"}
-                                        className="m-2 ml-6 w-10 h-10 rounded-full"
-                                    />
-                                    <p className="ml-2 mt-4 text-sm">{currentUser?.username}</p>
-                                </div>
+                            <p className="mt-4 text-sm">{noAppointments = noAppointments+1}{")"} </p>
+
+                                    <p className=" ml-2 mt-4 text-sm">{appointment.timeslot}</p>
+                    
+                                    <p className="m-2 mt-4 text-sm">{appointment.date}</p>
                             <div>
                                 {students?.documents.map((student:Models.Document) =>
                                 <>
@@ -130,12 +119,16 @@ function CounsellorAppointments() {
                                         <div className="flex flex-row">
                                                     <img
                                                         src={student.imageUrl || "/assets/user.png"}
-                                                        className="m-2 ml-6 w-10 h-10 rounded-full" />
-                                                    <p className="ml-2 mt-4 mr-2 text-sm">{student.username}</p>
+                                                        className="m-2 ml-2 w-10 h-10 rounded-full" />
+                                                    <p className="ml-2 mt-4 mr-12 text-sm">{student.username}</p>
                                         </div>
-                                        <Button onClick={() => CancelAppointment(appointment.timeslot,appointment.date,student.accountid)}
+                                        <Button onClick={() => {CancelAppointment(appointment.timeslot,appointment.date,student.accountid);setIsDelete(true)}}
                                             className="bg-sky-800 text-sm m-2 p-2 mb-10 rounded-xl w-16 h-10">
                                                 Cancel
+                                        </Button>
+                                        <Button onClick={() => {CancelAppointment(appointment.timeslot,appointment.date,student.accountid);setIsComplete(true)}}
+                                            className="bg-sky-800 text-sm m-2 p-2 mb-10 rounded-xl w-24 h-10">
+                                                Completed
                                         </Button>
                                         </div>
                                         </>

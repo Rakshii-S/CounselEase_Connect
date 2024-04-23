@@ -2,10 +2,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import PostLikes from '../shared/PostLikes';
 import { useGetCurrentUserCollection, useGetPostById } from '../../../@/lib/react_query/queryNmutation';
 import { useUserContext } from '../../../context/AuthContext';
-import { Loader } from 'lucide-react';
 import { multiFormatDateString } from '../../../@/lib/utils';
 import { Button } from '../../../@/components/ui/button';
 import { deletePostById } from '../../../@/lib/appwrite/api';
+import Loader from '../shared/Loader';
 
 
 function PostDetails() {

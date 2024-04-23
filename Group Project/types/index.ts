@@ -192,3 +192,10 @@ export type ISummary = {
     email: string,
     name: string
 }
+
+//ACTIVITY
+export type IActivity = {
+    id: string,
+    title: string,
+    isCompleted: string
+}

@@ -41,5 +41,8 @@ export enum QUERY_KEYS {
     GET_RECENT_APPOINTMENT = "getRecentAppointment",
     GET_RECENT_STUDENTS = "getRecentStudents",
     GET_RECENT_SCHEDULE = "getRecentSchedule",
-    GET_RECENT_SUMMARY = "getRecentSummary"
+    GET_RECENT_SUMMARY = "getRecentSummary",
+
+    //ACTIVITY
+    GET_RECENT_ACTIVITY = "getRecentTasks"
 }

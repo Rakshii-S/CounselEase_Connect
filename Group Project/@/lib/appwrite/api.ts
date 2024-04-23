@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, ISummary, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
+import { IActivity, IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, ISummary, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from "../../../types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -1325,6 +1325,17 @@ export async function deleteFileM(fileId: string) {
     }
 }
 
+export async function DeletePost(postid: string) {
+    const tasks = await databases.deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.groupPostsCollectionId,
+        postid
+    )
+    if (!tasks)
+        throw Error
+    alert("Post deleted successfully.")
+}
+
 export async function updatePostM(post: IUpdatePostM) {
     try {
         const hasFileToUpdate = post.file.length > 0;
@@ -1515,7 +1526,9 @@ export async function AddAppointment(user: IAppointment): Promise<any> {
                 Scontact: user.scontact,
                 Ccontact: user.ccontact,
                 date: user.date,
-                timeslot: user.timeslot
+                timeslot: user.timeslot,
+                message1: "false",
+                message2: "false"
             })
         if (!Nuser) {
             throw Error;
@@ -1606,6 +1619,21 @@ export async function deleteAppointment(ID: string) {
     }
 }
 
+export async function completeAppointment(ID: string) {
+    try {
+        await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.appointmentCollectionId,
+            ID
+        )
+        alert("Appointment completed.")
+        return
+    } catch (error) {
+
+    }
+}
+
+
 //summary 
 export async function AddSummary(user: ISummary) {
     try {
@@ -1674,6 +1702,55 @@ export async function getRecentSummary() {
     const summary = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.summaryCollectionId,
+    )
+    if (!summary) throw Error
+    return summary
+}
+
+export async function AddTask(task: IActivity) {
+    const tasks = await databases.createDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.activityCollectionId,
+        v4(),
+        {
+            title: task.title,
+            isCompleted: task.isCompleted
+        }
+    )
+    if (!tasks)
+        throw Error
+    console.log(tasks)
+}
+
+export async function UpdateTask(task: IActivity) {
+    const tasks = await databases.updateDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.activityCollectionId,
+        task.id,
+        {
+            isCompleted: task.isCompleted
+        }
+    )
+    if (!tasks)
+        throw Error
+    console.log(tasks)
+}
+
+export async function DeleteTask(taskid: string) {
+    const tasks = await databases.deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.activityCollectionId,
+        taskid
+    )
+    if (!tasks)
+        throw Error
+    console.log(tasks)
+}
+
+export async function getRecentTasks() {
+    const summary = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.activityCollectionId,
     )
     if (!summary) throw Error
     return summary

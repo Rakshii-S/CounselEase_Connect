@@ -1,6 +1,6 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
-import { IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, ISummary, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from '../../../types';
-import { AddAppointment, AddSchedule, AddStudentToGroup, AddSummary, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getAppointmentById, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentAppointment, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, getRecentSchedule, getRecentStudents, getRecentSummary, getScheduleById, getStudent, getStudentById, getSummaryById, getUser, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateSchedule, updateSummary, updateUserAccount} from '../appwrite/api';
+import { IActivity, IAppointment, IGroupCollection, INewBuddy, INewCounsellor, INewGroup, INewPost, INewPostM, INewUser, ISchedule, ISummary, IUpdateBuddy, IUpdateCounsellor, IUpdateGroup, IUpdatePost, IUpdatePostM, IUpdateUser } from '../../../types';
+import { AddAppointment, AddSchedule, AddStudentToGroup, AddSummary, AddTask, DeleteTask, UpdateBuddyB, UpdateBuddyU, UpdateCounsellorC, UpdateCounsellorU, UpdateEmail, UpdatePassword, UpdateTask, UpdateUser, addBuddy, addCounsellor, createGroup, createPost, createPostM, createUserAccount, getAppointmentById, getBuddyByIdB, getBuddyByIdU, getCounsellorByIdC, getCounsellorByIdU, getCurrentUser, getCurrentUserCollections, getGroupById, getPostById, getPostByIdM, getRecentAppointment, getRecentBuddyB, getRecentBuddyU, getRecentCounsellorC, getRecentCounsellorU, getRecentGroups, getRecentPosts, getRecentPostsM, getRecentSchedule, getRecentStudents, getRecentSummary, getRecentTasks, getScheduleById, getStudent, getStudentById, getSummaryById, getUser, likePost, likePostM, saveStudentToDB, signInAccount, signOutAccount, updateGroup, updatePost, updatePostM, updateSchedule, updateSummary, updateUserAccount} from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 //create new user account 
@@ -484,5 +484,31 @@ export const useGetSummarybyId = (userId: string) => {
 export const useUpdateSummary = () => {
     return useMutation({
         mutationFn: (user:ISummary) => updateSummary(user)
+    })
+}
+
+//Activity
+export const useAddTasks = () => {
+        return useMutation({
+            mutationFn: (task:IActivity) => AddTask(task)
+        })
+}
+
+export const useUpdateTasks = () => {
+    return useMutation({
+        mutationFn: (task:IActivity) => UpdateTask(task)
+    })
+}
+
+export const useDeleteTasks = () => {
+    return useMutation({
+        mutationFn: (taskid:string) => DeleteTask(taskid)
+    })
+}
+
+export const useGetRecentTask= () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_ACTIVITY],
+        queryFn: getRecentTasks,
     })
 }
