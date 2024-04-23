@@ -95,7 +95,7 @@ async function schedule1() {
     }
 }
 
-const Schedulejob = schedule.scheduleJob('41 0 * * *', () => {
+const Schedulejob = schedule.scheduleJob('46 0 * * *', () => {
     schedule1()
 });
 
