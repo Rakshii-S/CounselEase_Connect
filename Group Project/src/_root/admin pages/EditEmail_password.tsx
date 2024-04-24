@@ -61,7 +61,7 @@ function EditEmail_password() {
             height={50}
             className="pr-2"
             />
-            <p className="p-2 mt-4 text-xl">Update credetials</p>
+            <p className="p-2 mt-4 text-xl">Update credentials</p>
         </div>
         <div>
           {/*Update email*/}

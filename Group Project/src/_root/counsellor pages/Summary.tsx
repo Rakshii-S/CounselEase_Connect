@@ -188,7 +188,7 @@ function Summary() {
                       <Button type="submit" className="bg-sky-800 m-2 p-2 mb-10 rounded-xl w-32 h-14 text-sm">
                       {summaryLoading? 
                       (
-                        <div>
+                        <div className="pl-10 pt-[-30px]">
                           <Loader/>
                         </div>
                       ):(

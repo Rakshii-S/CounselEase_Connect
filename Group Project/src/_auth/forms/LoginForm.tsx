@@ -75,7 +75,7 @@ function LoginForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="ml-4 mr-4">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" className="shad-input" {...field} />
@@ -89,7 +89,7 @@ function LoginForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="ml-4 mr-4">
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" className="shad-input" {...field} />
@@ -99,7 +99,7 @@ function LoginForm() {
           )}
         />
 
-        <Button type="submit" className="shad-button_primary">
+        <Button type="submit" className="shad-button_primary ml-4 mr-4 mt-4">
           {isUserLoading || isUser?(
             <div className="flex-center gap-2">
               <Loader/> Loading....

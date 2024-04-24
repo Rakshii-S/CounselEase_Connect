@@ -89,7 +89,7 @@ function SignupForm() {
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="ml-4 mr-4">
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input type="text" className="shad-input" {...field} />
@@ -103,7 +103,7 @@ function SignupForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="ml-4 mr-4">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" className="shad-input" {...field} />
@@ -117,7 +117,7 @@ function SignupForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="ml-4 mr-4">
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input type="password" className="shad-input" {...field} />
@@ -127,7 +127,7 @@ function SignupForm() {
           )}
         />
 
-        <Button type="submit" className="shad-button_primary">
+        <Button type="submit" className="shad-button_primary mt-4 ml-4 mr-4">
           {isCreatingUser?(
             <div className="flex-center gap-2">
               <Loader/>Loading....

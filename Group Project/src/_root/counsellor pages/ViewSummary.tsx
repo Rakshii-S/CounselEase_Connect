@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../../@/components/ui/button';
-import { useGetSummarybyId, useUpdateSummary } from '../../../@/lib/react_query/queryNmutation';
+import { useDeleteSummary, useGetSummarybyId, useUpdateSummary } from '../../../@/lib/react_query/queryNmutation';
 import Loader from '../shared/Loader';
 
 function ViewSummary() {
@@ -14,6 +14,7 @@ function ViewSummary() {
   let time = new Date();
   time.setDate(time.getDate() + 0);
   const {data: summary} = useGetSummarybyId(id || '');
+  const {mutateAsync: deleteSummary, isPending: isLoadingUpdate2} = useDeleteSummary();
   const {mutateAsync: updateSummary, isPending: isLoadingUpdate} = useUpdateSummary();
   async function uploadSummary ()
   {
@@ -27,6 +28,11 @@ function ViewSummary() {
          email: '',
          name: ''
      })
+  }
+
+  async function deleteS() {
+    await deleteSummary(idSummary);
+    navigate('/summary')
   }
   return(
     <div className='common-container'>
@@ -45,13 +51,25 @@ function ViewSummary() {
               Go back
             </Button>
             <Button 
+              onClick={deleteS} 
+              className="bg-sky-800 m-2 p-4 mt-10 rounded-xl w-32 h-14">
+              {isLoadingUpdate2?
+              (
+                <div className="pl-10 pt-[-30px]">
+                <Loader/>
+              </div>
+              ):(
+                "Delete"
+              )}
+            </Button>
+            <Button 
               onClick={uploadSummary} 
               className="bg-sky-800 m-2 p-4 mt-10 rounded-xl w-32 h-14">
               {isLoadingUpdate?
               (
-                <div>
-                    <Loader/>
-                </div>
+                <div className="pl-10 pt-[-30px]">
+                <Loader/>
+              </div>
               ):(
                 "Update"
               )}

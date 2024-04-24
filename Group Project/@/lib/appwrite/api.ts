@@ -1633,7 +1633,6 @@ export async function completeAppointment(ID: string) {
     }
 }
 
-
 //summary 
 export async function AddSummary(user: ISummary) {
     try {
@@ -1672,6 +1671,18 @@ export async function updateSummary(user: ISummary) {
     }
 }
 
+export async function deleteSummary(ID: string) {
+    try {
+        await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.summaryCollectionId,
+            ID
+        )
+        alert("Session summary deleted successfully.")
+    } catch (error) {
+
+    }
+}
 
 export async function getSummary(regno: string) {
     const summary = await databases.listDocuments(
