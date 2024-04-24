@@ -62,9 +62,9 @@ function MPostCard({post}:PostCardProps)
                         <img 
                         src="/assets/trash.png"
                         alt="edit"
-                        width={23}
-                        height={23}
-                        className="m-4"
+                        width={25}
+                        height={25}
+                        className="m-1"
                         />
                     </Button>
                 </div>
