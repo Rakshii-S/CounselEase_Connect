@@ -15,10 +15,12 @@ function Home() {
             {isPostLoading && !posts?(
               <Loader/>
             ):(<ul className="flex flex-1 flex-col gap-9 w-full">
-                  {posts?.documents.map((post: Models.Document) => (
-                    <PostCard post={post} key={post.caption}/>
-                  ))}
-              </ul>
+            {posts?.documents
+              .sort((a: Models.Document, b: Models.Document) => new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime()) // Sort the posts based on createdAt in descending order
+              .map((post: Models.Document) => (
+                <PostCard post={post} key={post.caption}/>
+              ))}
+          </ul>
               )}
         </div>
       </div>

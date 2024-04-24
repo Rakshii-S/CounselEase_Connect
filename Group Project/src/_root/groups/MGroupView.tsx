@@ -169,9 +169,11 @@ function MGroupView() {
               )}
               <div className="flex justify-center">
               <ul className="flex flex-col">
-                  {posts?.documents.map((post: Models.Document) => (
-                    <MPostCard post={post} key={post.caption}/>
-                  ))}
+              {posts?.documents
+                .sort((a: Models.Document, b: Models.Document) => new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime()) // Sort the posts based on createdAt in descending order
+                .map((post: Models.Document) => (
+                  <MPostCard post={post} key={post.caption}/>
+                ))}
               </ul>
               </div>
           </div>

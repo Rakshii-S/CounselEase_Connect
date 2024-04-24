@@ -89,9 +89,7 @@ function MPostForm({post,action}:PostForm)
             title:'Please try again'
           })
         }else{
-          toast({
-            title:'Post uploaded successfully'
-          })
+          alert("Post Uploaded successfully.")
         }
         if(user.role == "admin")
           {

@@ -1326,14 +1326,20 @@ export async function deleteFileM(fileId: string) {
 }
 
 export async function DeletePost(postid: string) {
-    const tasks = await databases.deleteDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.groupPostsCollectionId,
-        postid
-    )
-    if (!tasks)
-        throw Error
-    alert("Post deleted successfully.")
+    if (confirm("Do you want to delete the post?")) {
+        const tasks = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.groupPostsCollectionId,
+            postid
+        )
+        if (!tasks)
+            throw Error
+        alert("Post deleted successfully.")
+        window.location.reload();
+    }
+    else {
+        return alert("Delete operation has been cancelled.");
+    }
 }
 
 export async function updatePostM(post: IUpdatePostM) {
