@@ -233,7 +233,7 @@ function Schedule() {
                 </>
             ):(
                 <>
-                <div className="mt-8 lg:ml-0 md:ml-0 ml-[-450px]">
+                <div className="mt-8 lg:ml-0 md:ml-0 ml-[-400px]">
                 <div>
                     <Table>
                         <TableHead>
@@ -294,7 +294,7 @@ function Schedule() {
             )}
             {newSchedule ? 
             (
-                <div>
+                <div className="mt-8 lg:ml-0 md:ml-0 ml-[-400px]">
                 <div>
                     <Table>
                         <TableHead>
