@@ -6,7 +6,9 @@ import schedule from 'node-schedule';
 const client = new sdk.Client();
 const users = new sdk.Users(client);
 const databases = new sdk.Databases(client);
+const app = express();
 const port = 3000;
+
 
 const appwriteConfig = {
     databaseId: '65eeb8ce999889bf3cc1',
@@ -77,7 +79,6 @@ async function schedule1() {
                         }
                         status.push("null")
                     }
-                    console.log(status)
                 }
             }
             await databases.updateDocument(
@@ -95,7 +96,7 @@ async function schedule1() {
     }
 }
 
-const Schedulejob = schedule.scheduleJob('46 0 * * *', () => {
+const Schedulejob = schedule.scheduleJob('30 0 * * *', () => {
     schedule1()
 });
 
