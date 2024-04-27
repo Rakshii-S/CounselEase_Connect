@@ -25,6 +25,7 @@ let date = new Date()
 let day0 = date.getDay()
 
 async function schedule1() {
+    console.log("hello")
     let s
     let stat = []
     let statuss = []
@@ -96,7 +97,7 @@ async function schedule1() {
     }
 }
 
-const Schedulejob = schedule.scheduleJob('1 0 * * *', () => {
+const Schedulejob = schedule.scheduleJob('3 0 * * *', () => {
     schedule1()
 });
 
