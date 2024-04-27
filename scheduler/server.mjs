@@ -47,9 +47,7 @@ async function schedule1() {
         }
         let counsellorID = String(sched.documents[k].counsellorid)
         let timeslot = sched.documents[k].timeslot
-        if (day0 == 0) {
-            return
-        } else {
+        if (true) {
             let status = []
             let dt = []
             let days = []
@@ -97,7 +95,7 @@ async function schedule1() {
     }
 }
 
-const Schedulejob = schedule.scheduleJob('11 * * * *', () => {
+const Schedulejob = schedule.scheduleJob('16 * * * *', () => {
     schedule1()
 });
 
