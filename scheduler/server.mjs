@@ -96,11 +96,13 @@ async function schedule1() {
     }
 }
 
-const Schedulejob = schedule.scheduleJob('* * * * *', () => {
-    console.log("hello")
+schedule.scheduleJob('14 * * * *', () => {
+    schedule1();
 });
 
-// schedule1()
+schedule.scheduleJob('* * * * *', () => {
+    console.log("Server is running!!!!");
+})
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
