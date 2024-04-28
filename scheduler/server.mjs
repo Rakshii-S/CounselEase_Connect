@@ -53,7 +53,7 @@ async function schedule1() {
         let dt = []
         let days = []
         if (day0 == 0)
-            return
+            return 0
         for (let i = 0; i < 6; i++) {
             let nullPush = true
             let nullPush2 = true
@@ -98,7 +98,7 @@ async function schedule1() {
     }
 }
 
-schedule.scheduleJob('2 0 * * *', () => {
+schedule.scheduleJob('5 0 * * *', () => {
     schedule1();
 });
 
