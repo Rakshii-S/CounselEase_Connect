@@ -11,6 +11,8 @@ import AppointmentForm from './AppointmentForm';
 
 function ViewAppointment() {
   //hooks and others
+  const date = new Date();
+  const day0 = date.getDay();
   const {user} = useUserContext()
   const navigate = useNavigate();
   const {id} = useParams()
@@ -148,7 +150,7 @@ useEffect(() => {
                 </div>
                 <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
                 </>  
-            ):(
+            ): day0 != 0 ?(
                 <>
                 <div className='hidden sm:hidden md:hidden lg:block xl:block'>
                 <div >
@@ -210,6 +212,13 @@ useEffect(() => {
             </div>
             <AppointmentForm/>
             </>
+            ):(
+                <>
+                <div className='w-full h-56 text-lg rounded-2xl mt-20 flex flex-row justify-center items-center'>
+                        <p className="schedule-heading">You cannot book appointments on sunday.</p>
+                </div>
+                <Button onClick={()=>{navigate("/appointment")}} className="bg-sky-800 m-2 p-4 mb-10 rounded-xl w-56 h-18">Go Back</Button>
+                </>  
             )}
         </>
         )}
