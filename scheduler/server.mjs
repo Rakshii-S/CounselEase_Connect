@@ -98,7 +98,7 @@ async function schedule1() {
     }
 }
 
-schedule.scheduleJob('5 0 * * *', () => {
+schedule.scheduleJob('9 0 * * *', () => {
     schedule1();
 });
 
