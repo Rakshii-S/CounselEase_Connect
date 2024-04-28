@@ -36,6 +36,8 @@ async function schedule1() {
     )
     for (let k = 0; k < Number(sched.documents.length); k++) {
         s = sched.documents[k].status
+        console.log(k);
+        console.log(s);
         for (let n = 0; n < 6; n++) {
             stat = []
             for (let m = 0; m < 8; m++) {
@@ -47,37 +49,35 @@ async function schedule1() {
         }
         let counsellorID = String(sched.documents[k].counsellorid)
         let timeslot = sched.documents[k].timeslot
-        if (true) {
-            let status = []
-            let dt = []
-            let days = []
-            for (let i = 0; i < 6; i++) {
-                let nullPush = true
-                let nullPush2 = true
-                for (let j = 0; j < 8; j++) {
-                    if (i + 1 >= day0) {
-                        let date = new Date();
-                        date.setDate(date.getDate() + (i + 1) - day0);
-                        let date_0 = date.toISOString().split('T')[0]
-                        if (!dt.includes(date_0)) {
-                            dt.push(date_0)
-                        }
-                        if (!days.includes(daysOfWeek[i])) {
-                            days.push(daysOfWeek[i])
-                        }
-                        status.push(statuss[i][j])
+        let status = []
+        let dt = []
+        let days = []
+        for (let i = 0; i < 6; i++) {
+            let nullPush = true
+            let nullPush2 = true
+            for (let j = 0; j < 8; j++) {
+                if (i + 1 >= day0) {
+                    let date = new Date();
+                    date.setDate(date.getDate() + (i + 1) - day0);
+                    let date_0 = date.toISOString().split('T')[0]
+                    if (!dt.includes(date_0)) {
+                        dt.push(date_0)
                     }
-                    else {
-                        if (nullPush) {
-                            dt.push("null")
-                            nullPush = false
-                        }
-                        if (nullPush2) {
-                            days.push("null")
-                            nullPush2 = false
-                        }
-                        status.push("null")
+                    if (!days.includes(daysOfWeek[i])) {
+                        days.push(daysOfWeek[i])
                     }
+                    status.push(statuss[i][j])
+                }
+                else {
+                    if (nullPush) {
+                        dt.push("null")
+                        nullPush = false
+                    }
+                    if (nullPush2) {
+                        days.push("null")
+                        nullPush2 = false
+                    }
+                    status.push("null")
                 }
             }
             await databases.updateDocument(
@@ -91,13 +91,16 @@ async function schedule1() {
                     status: status,
                     dates: dt
                 })
+            console.log(status);
         }
     }
 }
 
-const Schedulejob = schedule.scheduleJob('3 * * * *', () => {
-    schedule1()
+const Schedulejob = schedule.scheduleJob('* * * * *', () => {
+    console.log("hello")
 });
+
+// schedule1()
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
