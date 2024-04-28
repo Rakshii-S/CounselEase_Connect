@@ -45,6 +45,14 @@ function ViewCounsellor() {
                 <p className='pt-6 text-base'><u>BIO</u></p>
                 <p className='pt-2 p-6 text-base'>{userC?.bio}</p>
               </div>
+              {user.role == "admin"?(
+                  <div className='flex flex-row text-xl pl-6'>
+                  <p className='pr-5 text-lg'>Password: </p>
+                  <p className='pl-1 text-lg'>{userU?.password}</p>
+                </div>
+              ):(
+                <></>
+              )}
               <div className='flex flex-row pb-24'>
                 <img
                 src="/assets/contact.png"
@@ -52,14 +60,6 @@ function ViewCounsellor() {
                 <p className='pt-5 pr-5 text-lg'>Contact</p>
                 <p className='pl-1 pt-5 text-lg'>{userC?.contact}</p>
               </div>
-              {user.role == "admin"?(
-                  <div className='flex flex-row text-xl'>
-                  <p className='pt-5 pr-5 text-lg'>Password: </p>
-                  <p className='pl-1 pt-5 text-lg'>{userU?.password}</p>
-                </div>
-              ):(
-                <></>
-              )}
             </div>
         </div>
         {user.role == "admin"?(
