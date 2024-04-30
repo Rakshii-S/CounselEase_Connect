@@ -102,9 +102,9 @@ async function schedule1() {
     }
 }
 
-// schedule.scheduleJob('32 0 * * *', () => {
-//     schedule1();
-// });
+schedule.scheduleJob('32 0 * * *', () => {
+    schedule1();
+});
 
 schedule.scheduleJob('* * * * *', () => {
     console.log("Server is running!!!!");
