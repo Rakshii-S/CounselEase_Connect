@@ -26,7 +26,7 @@ let day0 = date.getDay()
 
 async function schedule1() {
     console.log("hello")
-    let s
+    let s = []
     let stat = []
     let statuss = []
     let daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -53,7 +53,7 @@ async function schedule1() {
         let dt = []
         let days = []
         if (day0 == 0)
-            return 0
+            return
         for (let i = 0; i < 6; i++) {
             let nullPush = true
             let nullPush2 = true
@@ -95,12 +95,16 @@ async function schedule1() {
                 })
             console.log(status);
         }
+        status = []
+        s = []
+        stat = []
+        statuss = []
     }
 }
 
-schedule.scheduleJob('9 0 * * *', () => {
-    schedule1();
-});
+// schedule.scheduleJob('32 0 * * *', () => {
+//     schedule1();
+// });
 
 schedule.scheduleJob('* * * * *', () => {
     console.log("Server is running!!!!");
