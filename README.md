@@ -18,7 +18,9 @@ CounselEase Connect is a comprehensive counseling platform designed to streamlin
 ## User Interface
 1. Login Page and Register Page
    ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/022fc100-bfb8-40b5-8ca0-66a0a00c5951)
+   <div style="text-align:center">
    <img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e3e23582-95a3-4dda-80fb-209c6eb0cacd" alt="Example Image" height="400" align="center" />
+   </div>
 
 3. Admin
 ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/367490dd-e5bb-4bd1-a729-5539fda29ba9)
