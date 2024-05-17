@@ -16,6 +16,14 @@ CounselEase Connect is a comprehensive counseling platform designed to streamlin
 
 
 ## User Interface
+![Screenshot 2024-04-14 072632](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/6ac3dbb0-d510-46b8-8773-fa99d7d816c7)
+![Screenshot 2024-04-14 062041](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/b261f271-871e-4263-9205-9d03bb54e773)
+![Screenshot 2024-04-14 062328](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/ad3992ff-e2d3-47a5-a6cd-5d45166b5b81)
+![Screenshot 2024-04-14 062537](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/83b63434-acef-4ca7-9e2c-3107e616da2a)
+![Screenshot 2024-04-14 062622](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/d5757129-fe95-40ac-bfee-216e466aa05e)
+![Screenshot 2024-04-14 062721](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/9a389a43-388b-4f86-ba00-85263eed8fa8)
+![Screenshot 2024-04-14 065000](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/84d9bac0-3560-4827-9c23-ac11a551a0cc)
+![Screenshot 2024-04-14 070230](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/b73f524b-db31-4672-a5fe-d5a72b2d4dfb)
 
 
 ## Installation and setup
