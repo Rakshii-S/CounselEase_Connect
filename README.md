@@ -16,15 +16,25 @@ CounselEase Connect is a comprehensive counseling platform designed to streamlin
 
 
 ## User Interface
-![Screenshot 2024-04-14 072632](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/6ac3dbb0-d510-46b8-8773-fa99d7d816c7)
-![Screenshot 2024-04-14 062041](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/b261f271-871e-4263-9205-9d03bb54e773)
-![Screenshot 2024-04-14 062328](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/ad3992ff-e2d3-47a5-a6cd-5d45166b5b81)
-![Screenshot 2024-04-14 062537](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/83b63434-acef-4ca7-9e2c-3107e616da2a)
-![Screenshot 2024-04-14 062622](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/d5757129-fe95-40ac-bfee-216e466aa05e)
-![Screenshot 2024-04-14 062721](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/9a389a43-388b-4f86-ba00-85263eed8fa8)
-![Screenshot 2024-04-14 065000](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/84d9bac0-3560-4827-9c23-ac11a551a0cc)
-![Screenshot 2024-04-14 070230](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/b73f524b-db31-4672-a5fe-d5a72b2d4dfb)
+1. Login Page and Register Page
+   ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/022fc100-bfb8-40b5-8ca0-66a0a00c5951)
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e3e23582-95a3-4dda-80fb-209c6eb0cacd)
 
+2. Admin
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/367490dd-e5bb-4bd1-a729-5539fda29ba9)
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e0f94f9a-5d43-4c6e-8ba6-1a9e909efc34)
+
+3. Counsellor
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/388771d9-31d4-4bfa-9f84-68544684d263)
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/a4247560-7af2-41c2-89dc-4baca380c955)
+
+4. Student
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/59854905-64c7-4cd3-ba6d-28ff12a1a94b)
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e8e57584-d157-4aca-a110-b9cabcddbef5)
+
+5. Buddy
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/8bdbe6d9-565c-440a-bcf5-513c53602358)
+![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/262cf627-d259-48d3-9da3-133b9e6b26ce)
 
 ## Installation and setup
 
