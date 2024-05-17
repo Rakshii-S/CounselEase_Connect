@@ -18,23 +18,23 @@ CounselEase Connect is a comprehensive counseling platform designed to streamlin
 ## User Interface
 1. Login Page and Register Page
    ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/022fc100-bfb8-40b5-8ca0-66a0a00c5951)
-   <img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e3e23582-95a3-4dda-80fb-209c6eb0cacd" alt="Example Image" height="400" align="center" />
+   <img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e3e23582-95a3-4dda-80fb-209c6eb0cacd" alt="Example Image" height="500" align="center" />
 
 3. Admin
 ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/367490dd-e5bb-4bd1-a729-5539fda29ba9)
-<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e0f94f9a-5d43-4c6e-8ba6-1a9e909efc34" alt="Example Image" height="400" align="center" />
+<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e0f94f9a-5d43-4c6e-8ba6-1a9e909efc34" alt="Example Image" height="500" align="center" />
 
 5. Counsellor
 ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/388771d9-31d4-4bfa-9f84-68544684d263)
-<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/a4247560-7af2-41c2-89dc-4baca380c955)" alt="Example Image" height="400" align="center" />
+<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/a4247560-7af2-41c2-89dc-4baca380c955)" alt="Example Image" height="500" align="center" />
 
 7. Student
 ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/59854905-64c7-4cd3-ba6d-28ff12a1a94b)
-<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e8e57584-d157-4aca-a110-b9cabcddbef5" alt="Example Image" height="400" align="center" />
+<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/e8e57584-d157-4aca-a110-b9cabcddbef5" alt="Example Image" height="500" align="center" />
 
 9. Buddy
 ![image](https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/8bdbe6d9-565c-440a-bcf5-513c53602358)
-<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/262cf627-d259-48d3-9da3-133b9e6b26ce" alt="Example Image" height="400" align="center" />
+<img src="https://github.com/Rakshii-S/CounselEase_Connect/assets/128218700/262cf627-d259-48d3-9da3-133b9e6b26ce" alt="Example Image" height="500" align="center" />
 
 ## Installation and setup
 
